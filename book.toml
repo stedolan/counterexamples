@@ -1,0 +1,10 @@
+[book]
+authors = ["Stephen Dolan"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Counterexamples in Type Systems"
+
+[preprocessor.katex]
+# command = "bash -c 'tee /tmp/j$RANDOM | jq .[1]'"
+command = "mdbook-katex/mdbook-katex"

@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+var katex = require('./katex/katex.min.js');
+
+var macros = { "\\n": "\\mathsf{#1}", "⊤": "\\top", "⊥": "\\bot" }
+var inlineOpts = { throwOnError: false, macros: macros }
+var displayOpts = { throwOnError: false, macros: macros, displayMode: true }
+
+function render(txt) {
+  return katex.renderToString(txt, {
+    throwOnError: false
+  });
+}
+
+function go(book) {
+  book.sections.forEach(sect => {
+    if (sect.Chapter) {
+      let s = sect.Chapter.content;
+      s = s.replace(/\$\$(.+?)\$\$/gs,
+                    (x, m) => katex.renderToString(m, displayOpts));
+      s = s.replace(/(?<!\$)\$([^$]+)\$(?![a-zA-Z])/g,
+                    (x, m) => katex.renderToString(m, inlineOpts));
+      sect.Chapter.content = s;
+    }
+  });
+  return book;
+}
+
+var data = '';
+process.stdin.setEncoding('utf-8');
+process.stdin.on('readable', () => {
+  let chunk;
+  while (null !== (chunk = process.stdin.read())) {
+    data += chunk;
+  }
+});
+process.stdin.on('end', function() {
+  if (data !== '') {
+    var book = JSON.parse(data);
+    book = go(book[1]);
+    book = JSON.stringify(book, null, '  ');
+    process.stdout.write(book + "\n");
+  }
+});
