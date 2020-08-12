@@ -1,0 +1,59 @@
+<!-- KaTeX stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+<style>
+pre[data-codetab=hide] { display: none; }
+pre[data-codetab] { margin-top: 0 }
+.codetab-bar button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+.codetab-bar button:hover {
+  background-color: #ddd;
+}
+.codetab-bar button[data-codetab=show] {
+  background-color: #ccc;
+}
+</style>
+
+<script>
+function langName(node) {
+  let lang = node.querySelector('code[class^="language-"]');
+  if (lang) lang = lang.className.match(/language-(\w+)/)[1];
+  lang = lang ? lang : "code";
+  lang = lang.replace(/^\w/, s => s.toUpperCase());
+  lang = {Ocaml:"OCaml","_rust":"Rust"}[lang] || lang;
+  return lang;
+}
+function insertCodeTabs() {
+  while (true) {
+    let code = document.querySelector('pre:not([data-codetab])');
+    if (!code) return;
+    let bar = document.createElement("DIV");
+    bar.classList.add('codetab-bar');
+    let tabs = [], buttons = [];
+    while (code && code.nodeName == "PRE") {
+      let button = document.createElement('BUTTON');
+      button.innerHTML = langName(code);
+      tabs.push(code);
+      buttons.push(button);
+      bar.appendChild(button);
+      code = code.nextElementSibling;
+    }
+    tabs[0].parentNode.insertBefore(bar, tabs[0]);
+    let select = function(t,b) {
+      tabs.forEach(t => t.dataset.codetab="hide");
+      buttons.forEach(b => b.dataset.codetab="hide");
+      t.dataset.codetab = "show";
+      b.dataset.codetab = "show";
+    };
+    for (var i = 0; i < tabs.length; i++) {
+      let ix = i;
+      buttons[ix].addEventListener('click', ev => select(tabs[ix], buttons[ix]));
+    }
+    select(tabs[0], buttons[0]);
+  }
+}
+document.addEventListener('DOMContentLoaded', insertCodeTabs);
+</script>
