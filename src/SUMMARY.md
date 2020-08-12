@@ -23,6 +23,8 @@
   - [Distinctness I: Injectivity](distinctness-injectivity.md)
   - [Distinctness II: Recursion](distinctness-recursion.md)
 
+  - [Overloading polymorphism](overloading-polymorphism.md)
+
 <!--
 
 "Injective type families for Haskell", Eisenberg.
@@ -52,7 +54,6 @@ https://lists.chalmers.se/pipermail/agda/2010/001526.html
 
 Recursive types:
   - non-strictly-positive types + impredicativity (COLOG'88 Coquand)
-  - contractivity + higher-kinded types
 
 Impredicativity:
   - Type:Type (Girard's paradox. Leo's OCaml impl.)
@@ -135,13 +136,6 @@ Something similar:
 the ability to create new values of a first-class type
 must be very careful about how the abstract types are bound
 https://issues.scala-lang.org/browse/SI-515
-
-The interaction of Java overloading and generics is weird.
-Inserting "bridge methods" breaks things:
-https://issues.scala-lang.org/browse/SI-9912
-http://www.concurrentaffair.org/2006/10/10/java-generics-unsound/
-Structural types specialising generics break things:
-https://issues.scala-lang.org/browse/SI-2672
 
 There seem to have been a bunch of bugs with Scala not doing variance checks.
 These don't seem terribly interesting, tbh.
