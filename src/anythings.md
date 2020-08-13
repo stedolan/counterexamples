@@ -71,7 +71,7 @@ It is unsound to treat this the same as $\n{List}[⊤] → \n{Int}$,
 as that would allow us to pass a list of, say, strings to the
 $\n{sum}$ function. In fact, since all of the occurrences of $α$ are
 contravariant (that is, to the left of a single function arrow), this
-type is in fact equivalent to $\n{List}[⊥] → \n{Int}$.
+type is equivalent to $\n{List}[⊥] → \n{Int}$.
 
 Scala supports subtyping and polymorphism, and several versions of the
 language had this soundness issue, where $∃α. φ(α)$ was converted to

@@ -4,7 +4,7 @@ Languages with sum types / algebraic datatypes generally include some
 form of pattern-matching: a `match`/`case`/`switch` construct that can
 inspect values.
 
-The cases in a match statement often contain redundancy, and modern
+The cases in a match statement often contain redundancy, and
 compilers optimise these statements by coalescing repeated
 subpatterns. For instance, consider this OCaml match:
 ```ocaml

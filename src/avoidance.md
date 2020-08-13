@@ -1,4 +1,4 @@
-# Avoidance problem
+# The avoidance problem
 
 A type system which infers types can occasionally find itself having
 inferred a type that refers to something (a type, module, etc.) which

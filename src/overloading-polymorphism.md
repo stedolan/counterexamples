@@ -1,11 +1,15 @@
-# Overloading polymorphism
+# Overloading and polymorphism
 
 Polymorphism allows a single function to work with an arbitrary,
 unknown type, while overloading allows one of multiple functions to be
-selected by examining types. The two are in direct conflict, because
-the information that overloading requires is unavailable in a
-polymorphic context. Attempts to combine them are tricky, as this
-counterexample in Java[^java] shows:
+selected by examining the types of the parameters. With overloading,
+the parameter types become part of the name of the method. With
+polymorphism, the parameter types might not be known.
+
+The two features are in direct conflict, because the information that
+overloading requires is unavailable in a polymorphic context. Attempts
+to combine them are tricky, as this counterexample in Java[^java]
+shows:
 ```java
 // Counterexample by Hiromasa Kido
 class A{
@@ -23,7 +27,7 @@ On earlier versions of Java, this program crashed with a
 `ClassCastException`, despite containing no casts. The issue is that
 in order to implement `B`'s `compareTo(B)`, the compiler inserts a
 "bridge method" `compareTo(Object)` containing a cast to `B`. The
-bridge method accepting `Object` rather than `B` is necessary because
+bridge method is necessary because
 the `compareTo` method is specified by `Comparable`, and other users
 of the `Comparable` interface will select the `compareTo(Object)`
 overload, as they do not necessarily know about `B`.  However, this

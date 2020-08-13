@@ -3,8 +3,10 @@
 [Counterexamples in Type Systems](title.md)
 [Introduction](intro.md)
 
+<!-- These need sorting -->
+
   - [Polymorphic references](polymorphic-references.md)
-  - [Covariance everywhere](general-covariance.md)
+  - [Covariant containers](general-covariance.md)
   - [Curry's paradox](currys-paradox.md)
 
   - [Eventually, nothing](eventually-nothing.md)
@@ -18,14 +20,25 @@
 
   - [Mutable matching](mutable-matching.md)
 
-  - [Runtime misinformation](runtime-misinformation.md)
+  - [Runtime type misinformation](runtime-misinformation.md)
 
   - [Distinctness I: Injectivity](distinctness-injectivity.md)
   - [Distinctness II: Recursion](distinctness-recursion.md)
 
-  - [Overloading polymorphism](overloading-polymorphism.md)
+  - [Overloading and polymorphism](overloading-polymorphism.md)
+
+  - [Side-effects in types](side-effect-types.md)
+
+  - [Subtyping vs. inheritance](subtyping-vs-inheritance.md)
+
+  - [Suspicious subterms](suspicious-subterms.md)
 
 <!--
+
+Monotonicity property:
+when a type is revealed, nothing breaks
+OCaml doesn't have it because of the float-record optimisation
+
 
 "Injective type families for Haskell", Eisenberg.
 (ctrl-F "unsound")
@@ -68,8 +81,6 @@ Subtyping:
 Quotient types:
   - http://strictlypositive.org/Ripley.pdf, 2
   - https://lists.chalmers.se/pipermail/agda/2012/004052.html
-
-
   
 
 GeneralizedNewtypeDeriving and roles
@@ -86,7 +97,7 @@ Large eliminations are bad:
 p70 of TAPL2  (coquand 1986)
 
 p88 of TAPL2 (effects)
-p312,336 of TAPL2 (first-class module projections, generativity)
+
 
 Berardi's paradox and others in the coq stdlib
 
@@ -100,14 +111,11 @@ https://github.com/rust-lang/rust/issues/24292
 
 more rust:
 https://github.com/rust-lang/rust/issues/26656
-https://github.com/rust-lang/rust/issues/25860
+https://github.com/rust-lang/rust/issues/25860 
 
 http://permalink.gmane.org/gmane.comp.lang.haskell.cafe/77116
 http://lambda-the-ultimate.org/node/4031
 
-(False -> False) = True
-https://sympa.inria.fr/sympa/arc/coq-club/2013-12/msg00119.html
-https://sympa.inria.fr/sympa/arc/coq-club/2013-12/msg00189.html
 
 GADTs and subtyping
 https://issues.scala-lang.org/browse/SI-8563
@@ -121,50 +129,19 @@ generics in C#/Java/Scala:
 https://www.microsoft.com/en-us/research/publication/on-decidability-of-nominal-subtyping-with-variance/
 https://arxiv.org/abs/1605.05274
 
-Generativity and modules
-Fig. 4.4 of Claudio Russo's thesis (pg. 114)
-Fig. 7.12/Ex. 7.4.1 (unpacking first-class mods) (pg. 270)
-
-first class modules / side effects / something
-write a function which returns a type
-but has an internal state bit, which it flips
-when called twice it returns two incompatible types
-which must not be regarded as equivalent
-https://issues.scala-lang.org/browse/SI-2079
-
-Something similar:
-the ability to create new values of a first-class type
-must be very careful about how the abstract types are bound
-https://issues.scala-lang.org/browse/SI-515
 
 There seem to have been a bunch of bugs with Scala not doing variance checks.
 These don't seem terribly interesting, tbh.
-https://issues.scala-lang.org/browse/SI-1364
-https://issues.scala-lang.org/browse/SI-8737
-https://issues.scala-lang.org/browse/SI-7093 (most interesting one)
-https://issues.scala-lang.org/browse/SI-8737
-https://issues.scala-lang.org/browse/SI-9549
-https://issues.scala-lang.org/browse/SI-5060
-
-If we have higher-kinded quantification, subtyping and variance
-then we must ensure the variance advertised is not more general
-than the variance implemented.
-It's not enough to quantify over type constructors, I think.
-We need to quantify over type constructors of given variance.
-Excellent bug.
-https://issues.scala-lang.org/browse/SI-2066?orig=1
+https://issues.scala-lang.org/browse/SI-9549 (?)
 
 
+class-private vs. object-private, extended version:
+https://issues.scala-lang.org/browse/SI-7093
 
-In the presence of side-effects (fresh names, refs, exceptions) and first-class types, the same expression might evaluate to different types different times.
-I think this is the same as several first-class module bugs (Russo's thesis?)
-https://github.com/scala/bug/issues/10619
-"paths" in
-https://www.scala-lang.org/files/archive/spec/2.11/03-types.html
-"stable identifier" in
-https://issues.scala-lang.org/browse/SI-963
-  - moscow ML bug
-http://www.seas.upenn.edu/~sweirich/types/archive/1999-2003/msg01136.html
+
+singleton elimination?
+https://github.com/leanprover/lean/issues/654
+
 
 Recursive type definitions can cause unsatisfiable constraint cycles.
 I don't know whether this is specific to subtyping.
@@ -177,7 +154,6 @@ existentials, overloading, and subtyping.
 https://issues.scala-lang.org/browse/SI-7278
 https://issues.scala-lang.org/browse/SI-1557
 https://groups.google.com/forum/#!topic/scala-language/vQYwywr0LL4/discussion (best explanation)
-
 
 
 hhvm object-private vs private, covariance
@@ -196,12 +172,6 @@ seems sorta unsurprising given (Trevor Jim's?) result that P2 with intersections
 haskell abstraction and global coherence
 https://stackoverflow.com/questions/34645745/can-i-magic-up-type-equality-from-a-functional-dependency
 
-
-agda: subterm check and type equality (same as Denes' coq one?)
-https://sympa.inria.fr/sympa/arc/coq-club/2014-03/msg00002.html
-https://github.com/agda/agda/issues/1023/
-
-
 failure of normalization in impredicative type theory
 with proof-irrelevant propositional equality
 andreas abel and thierry coquand
@@ -209,5 +179,18 @@ andreas abel and thierry coquand
 recursive cows:
 https://github.com/effect-handlers/effects-rosetta-stone/tree/master/examples/recursive-cow
 
+
+wtf wtf wtf
+https://github.com/lampepfl/dotty/issues/50
+scroll for namin/tiark comments
+
+I tink this is intersection types?
+The existence of an intersection can imply that two types are compatible
+but null / nonterminating evidence can fuck it up
+
+
+coq nonstrictlypositive:
+"Example: Non strictly positive occurrence"
+https://coq.inria.fr/refman/language/core/inductive.html#correctness-rules
 
 -->

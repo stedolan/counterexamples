@@ -47,7 +47,7 @@ natural property to expect. However, if it is possible to define a
 type constructor $F$ by $F[A] = \n{Int}$, then injectivity fails. This
 issue occurred in Dotty[^dotty], a research Scala compiler, as well as in Agda[^agda]
 (with the `injective-type-constructors` option). Curiously, Haskell
-makes the same assumption, but in that context it is sound.
+makes the same assumption, but without unsoundness.
 
 ```scala
 // Counterexample by Aleksander Boruch-Gruszecki

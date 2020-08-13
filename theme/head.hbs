@@ -23,7 +23,7 @@ function langName(node) {
   if (lang) lang = lang.className.match(/language-(\w+)/)[1];
   lang = lang ? lang : "code";
   lang = lang.replace(/^\w/, s => s.toUpperCase());
-  lang = {Ocaml:"OCaml","_rust":"Rust"}[lang] || lang;
+  lang = {Ocaml:"OCaml","_rust":"Rust","Sml":"Standard ML","Typescript":"TypeScript","Csharp":"C#"}[lang] || lang;
   return lang;
 }
 function insertCodeTabs() {

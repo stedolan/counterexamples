@@ -1,4 +1,4 @@
-# Runtime misinformation
+# Runtime type misinformation
 
 The typing judgement $e : A$ is a static, syntactic judgement based on
 the syntax of $e$ and $A$. Sometimes, it would be useful to have a
@@ -86,14 +86,14 @@ function expectListOfString(List<string> $x) { ... }
 ```java
 // This function would do an unsound conversion from Integer to String
 // because the cls.cast always passes: it's only checking List
-static String bad(Class<? extends List<String>> cls) {
+static String bad(Class<List<String>> cls) {
     List<Integer> i = Arrays.asList(42);
-    List<? extends String> badList = cls.cast(i);
+    List<String> badList = cls.cast(i);
     String badString = badList.get(0);
     return badString;
 }
 
-// But Java provides no way to get a Class<? extends List<String>>.
+// But Java provides no way to get a Class<List<String>>.
 // (Arrays.asList("a").getClass() is a Class<? extends List>)
 ```
 
