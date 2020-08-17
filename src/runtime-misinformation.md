@@ -100,3 +100,5 @@ static String bad(Class<List<String>> cls) {
 [^scala]: <https://github.com/scala/bug/issues/1503> (2008)
 
 [^hhvm]: <https://github.com/facebook/hhvm/pull/7632> (2017)
+
+<!-- FIXME add kotlin: https://youtrack.jetbrains.com/issue/KT-9584 -->

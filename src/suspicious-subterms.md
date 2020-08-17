@@ -72,8 +72,8 @@ of `u`. The fix was to restrict the subterm check in the presence of
 dependent matches, like the outer `match`.
 
 Agda's subterm checker has also been confused by dependent matching on
-type equalities, as this counterexample shows:
-```
+type equalities, as this counterexample shows[^agda]:
+```agda
 -- Andreas Abel, 2014-01-10
 -- Code by Jesper Cockx and Conor McBride and folks from the Coq-club
 
@@ -135,14 +135,14 @@ CoInductive Pandora : Prop := C : CoFalse -> Pandora.
 Axiom prop_ext : forall P Q : Prop, (P<->Q) -> P = Q.
 
 Lemma foo : Pandora = CoFalse.
-apply prop_ext.
-constructor.
-intro x; destruct x; assumption.
-exact C.
+  apply prop_ext.
+  constructor.
+  intro x; destruct x; assumption.
+  exact C.
 Qed.
 
 CoFixpoint loop : CoFalse :=
-match foo in (_ = T) return T with eq_refl => C loop end.
+  match foo in (_ = T) return T with eq_refl => C loop end.
 
 Definition ff : False := match loop with CF _ t => t end.
 ```
@@ -156,20 +156,19 @@ prop = Set
 data False : prop where
 
 data CoFalse : prop where
-CF : False → CoFalse
+  CF : False → CoFalse
 
 data Pandora : prop where
-C : ∞ CoFalse → Pandora
+  C : ∞ CoFalse → Pandora
 
 postulate
-ext : (CoFalse → Pandora) → (Pandora → CoFalse) → CoFalse ≡ Pandora
+  ext : (CoFalse → Pandora) → (Pandora → CoFalse) → CoFalse ≡ Pandora
 
 out : CoFalse → False
 out (CF f) = f
 
 foo : CoFalse ≡ Pandora
-foo = ext (λ{ (CF ()) })
-(λ{ (C c) → CF (out (♭ c))})
+foo = ext (λ{ (CF ()) }) (λ{ (C c) → CF (out (♭ c))})
 
 loop : CoFalse
 loop rewrite foo = C (♯ loop)

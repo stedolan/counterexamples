@@ -1,7 +1,7 @@
 # Overloading and polymorphism
 
-Polymorphism allows a single function to work with an arbitrary,
-unknown type, while overloading allows one of multiple functions to be
+Polymorphism allows a single method to work with an arbitrary,
+unknown type, while overloading allows one of multiple methods to be
 selected by examining the types of the parameters. With overloading,
 the parameter types become part of the name of the method. With
 polymorphism, the parameter types might not be known.

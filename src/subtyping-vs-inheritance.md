@@ -130,9 +130,9 @@ Barbara Liskov and Jeannette Wing (1994)
 
 [^cook]: [A Proposal for Making Eiffel Type-safe](https://academic.oup.com/comjnl/article/32/4/305/377555), W. R. Cook (1989)
 
-[^cats]: [Catching CATs](http://se.inf.ethz.ch/old/projects/markus_keller/diplom), Markus Keller (2003)
-
 [^typescriptStrict]: <https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html> (2017)
+
+[^cats]: [Catching CATs](http://se.inf.ethz.ch/old/projects/markus_keller/diplom), Markus Keller (2003)
 
 <!--
 Java ArrayStoreException

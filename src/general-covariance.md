@@ -32,8 +32,10 @@ approaches:
   - **Use-site variance** is used in Java (for types other than
     arrays): a `List<Car>` can never be converted to a
     `List<Vehicle>`, but can be converted to a `List<? extends
-    Vehicle>`. Each use of `List` specifies how the parameter is
-    allowed to vary.
+    Vehicle>`. The elements of a `List<? extends Vehicle>` are known
+    to be `Vehicle`s, but an arbitrary `Vehicle` cannot be inserted
+    into such a list. Each use of `List` specifies how the parameter
+    is allowed to vary.
 
   - **Declaration-site variance** is used in Scala (although use-site
     variance is also available). This means that the `List` type can

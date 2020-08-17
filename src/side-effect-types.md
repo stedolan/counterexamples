@@ -84,7 +84,7 @@ There are two standard fixes:
     languages and _stable identifiers_ in Scala.
 
     This can lead to some surprises, because valid syntax then depends
-    on context. For instance, in OCaml, anonymous functor parameters
+    on context. For instance, in OCaml, anonymous module parameters
     are possible in module definitions but not type expressions:
 
     ```ocaml
@@ -95,7 +95,7 @@ There are two standard fixes:
     type t2 = (F (struct type t = int end)).t   (* error *)
     ```
 
-    (Anonymous functor parameters also cause other surprises: see [the
+    (Anonymous module parameters also cause other surprises: see [the
     avoidance problem](avoidance.md))
 
   - **Restrict effects of expressions appearing in types**

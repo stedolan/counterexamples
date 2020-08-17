@@ -5,13 +5,15 @@
 
 <!-- These need sorting -->
 
-  - [Polymorphic references](polymorphic-references.md)
+  - [Polymorphic references]() <!--polymorphic-references.md-->
   - [Covariant containers](general-covariance.md)
-  - [Curry's paradox](currys-paradox.md)
+  - [Incomplete variance checking](incomplete-variance.md)
+
+  - [Curry's paradox]() <!--currys-paradox.md-->
 
   - [Eventually, nothing](eventually-nothing.md)
   - [Self-justifying facts](self-justification.md)
-  - [Null evidence](null-evidence.md)
+  - [Null evidence]() <!--null-evidence.md-->
 
   - [Some kinds of Anything](anythings.md)
   - [Any (single) thing](anything-once.md)
@@ -33,60 +35,75 @@
 
   - [Suspicious subterms](suspicious-subterms.md)
 
+  - [Privacy violation](privacy-violation.md)
+
+
+  - [Underdetermined recursion](underdetermined-recursion.md)
+
 <!--
 
-Monotonicity property:
-when a type is revealed, nothing breaks
-OCaml doesn't have it because of the float-record optimisation
+  - Monotonicity wrt opacity
+    when a type is revealed, nothing breaks
+    OCaml doesn't have it because of the float-record optimisation
 
+  - Large injective type constructors ((Set -> Set) -> Set)
+    Anticlassical and unsound with impredicativity
+    See Russel O'Connor's post:
+    https://coq-club.inria.narkive.com/iDuSeltD/agda-with-the-excluded-middle-is-inconsistent
+    and also:
+    https://github.com/leanprover/lean/issues/654
+    https://gist.github.com/leodemoura/0c88341bb585bf9a72e6
+    https://github.com/idris-lang/Idris-dev/issues/3687
+    https://lists.chalmers.se/pipermail/agda/2010/001530.html
+    https://lists.chalmers.se/pipermail/agda/2010/001565.html
+    https://lists.chalmers.se/pipermail/agda/2010/001526.html
+
+  - Non-strictly positive types
+    + impredicativity (COLOG'88 Coquand)
+    "Example: Non strictly positive occurrence"
+    https://coq.inria.fr/refman/language/core/inductive.html#correctness-rules
+    
+  - Type:Type and Girard's
+    http://okmij.org/ftp/Haskell/impredicativity-bites.html
+    Leo's OCaml impl.
+    Hurken's?
+
+  - Impredicative bounded quantification
+    [2] Bounded quantification is undecidable, Pierce
+    http://www.cis.upenn.edu/~bcpierce/papers/fsubpopl.ps
+    (example by Ghelli on page 4)
+    Example in Java?
+    generics in C#/Java/Scala:
+    https://www.microsoft.com/en-us/research/publication/on-decidability-of-nominal-subtyping-with-variance/
+    https://arxiv.org/abs/1605.05274
+
+  - Linking code compiled with different type-system options
+    pull gasche's -rectypes example out of distinctness
+    https://github.com/ocaml/ocaml/issues/7113#issuecomment-473054796 (safe-string)
+    https://github.com/agda/agda/issues/2487 - cubical vs. K
+
+  - GeneralizedNewtypeDeriving and roles
+    I like Conor's explanation as "only one Leibniz equality"
+    https://www.reddit.com/r/haskell/comments/y8kca/generalizednewtypederiving_is_very_very_unsafe/c5tawm8/
+    Has anything like this occurred elsewhere?
+    https://ghc.haskell.org/trac/ghc/ticket/1496
+    https://ghc.haskell.org/trac/ghc/ticket/2721
+    https://gitlab.haskell.org/ghc/ghc/-/wikis/roles
+
+  - Abstraction vs. global coherence
+    Haskell example of optimisation level affecting outcome
+    "orphan instances"
+    https://stackoverflow.com/questions/34645745/can-i-magic-up-type-equality-from-a-functional-dependency
+    https://web.archive.org/web/20071111130403/http://modula3.elegosoft.com/pm3/pkg/modula3/src/discussion/partialRev.html
+    https://wiki.haskell.org/Orphan_instance
+    
 
 "Injective type families for Haskell", Eisenberg.
 (ctrl-F "unsound")
 
-
-equirecursive uniqueness:
-  uniqueness / nonuniqueness is roughly equi / iso
-  if assuming uniqueness, don't check contractivity
-
-
-
-An Injection from Set->Set to Set seems to be bad in two different ways.
-There are proofs that it's anticlassical, and proofs that it's inconsistent.
-The inconsistency proofs might rely on impredicativity?
-I don't see why the anticlassical proofs aren't already proofs of false.
-Well, because I don't have double-negation-shift for Set!
-
-more injective nonsense:
-https://github.com/leanprover/lean/issues/654
-https://gist.github.com/leodemoura/0c88341bb585bf9a72e6
-https://github.com/idris-lang/Idris-dev/issues/3687
-https://lists.chalmers.se/pipermail/agda/2010/001530.html
-http://comments.gmane.org/gmane.science.mathematics.logic.coq.club/4348
-https://lists.chalmers.se/pipermail/agda/2010/001565.html
-https://lists.chalmers.se/pipermail/agda/2010/001526.html
-
-Recursive types:
-  - non-strictly-positive types + impredicativity (COLOG'88 Coquand)
-
-Impredicativity:
-  - Type:Type (Girard's paradox. Leo's OCaml impl.)
-  - http://okmij.org/ftp/Haskell/impredicativity-bites.html
-
-Subtyping:
-  - impredicativity: undecidable Fsub (java example?)
-    [2] Bounded quantification is undecidable, Pierce
-    http://www.cis.upenn.edu/~bcpierce/papers/fsubpopl.ps
-    (example by Ghelli on page 4)
-
 Quotient types:
   - http://strictlypositive.org/Ripley.pdf, 2
   - https://lists.chalmers.se/pipermail/agda/2012/004052.html
-  
-
-GeneralizedNewtypeDeriving and roles
-https://ghc.haskell.org/trac/ghc/ticket/1496
-https://ghc.haskell.org/trac/ghc/ticket/2721
-
 
 Conor's ripley (embiggening definitional equality)
 http://strictlypositive.org/Ripley.pdf
@@ -118,26 +135,11 @@ http://lambda-the-ultimate.org/node/4031
 
 
 GADTs and subtyping
-https://issues.scala-lang.org/browse/SI-8563
 An invariant case of a covariant definition allows constructing
 a covariant array, hilarity ensues.
 https://issues.scala-lang.org/browse/SI-6944
 https://issues.scala-lang.org/browse/SI-7952
 https://issues.scala-lang.org/browse/SI-8241
-
-generics in C#/Java/Scala:
-https://www.microsoft.com/en-us/research/publication/on-decidability-of-nominal-subtyping-with-variance/
-https://arxiv.org/abs/1605.05274
-
-
-There seem to have been a bunch of bugs with Scala not doing variance checks.
-These don't seem terribly interesting, tbh.
-https://issues.scala-lang.org/browse/SI-9549 (?)
-
-
-class-private vs. object-private, extended version:
-https://issues.scala-lang.org/browse/SI-7093
-
 
 singleton elimination?
 https://github.com/leanprover/lean/issues/654
@@ -155,22 +157,18 @@ https://issues.scala-lang.org/browse/SI-7278
 https://issues.scala-lang.org/browse/SI-1557
 https://groups.google.com/forum/#!topic/scala-language/vQYwywr0LL4/discussion (best explanation)
 
-
-hhvm object-private vs private, covariance
+hack variance bug:
 https://github.com/facebook/hhvm/issues/7216
-maybe the same issue as covariance in ocaml private row types?
 
+This bug is a mix of variance-checking and scope-checking.
+Types that don't escpe don't need variance-checking, but verify that they don't escape!
+  https://github.com/scala/bug/issues/5060 
+ 
 
-covariance and self types break
-https://github.com/facebook/hhvm/issues/7254
 
 intersection types and effects
 http://www.cs.cmu.edu/~fp/papers/icfp00.pdf
-seems sorta unsurprising given (Trevor Jim's?) result that P2 with intersections is roughly hindley-milner.
-
-
-haskell abstraction and global coherence
-https://stackoverflow.com/questions/34645745/can-i-magic-up-type-equality-from-a-functional-dependency
+NB: mitchell's distributivity is unsound with effects
 
 failure of normalization in impredicative type theory
 with proof-irrelevant propositional equality
@@ -189,8 +187,60 @@ The existence of an intersection can imply that two types are compatible
 but null / nonterminating evidence can fuck it up
 
 
-coq nonstrictlypositive:
-"Example: Non strictly positive occurrence"
-https://coq.inria.fr/refman/language/core/inductive.html#correctness-rules
+mix of intersection-ish types and negation-as-failure distinctness
+https://github.com/ocaml/ocaml/issues/7269
+
+loads here:
+https://github.com/lampepfl/dotty/search?q=unsound&type=Issues
+https://github.com/facebook/hhvm/issues?q=is%3Aissue+author%3Aacrylic-origami+
+https://youtrack.jetbrains.com/issues?q=looks%20like:%20KT-7972
+
+https://youtrack.jetbrains.com/issue/KT-7972
+
+
+comments from jeremy:
+
+ 1. The first implementation of GADTs in OCaml (2011) had a few
+problems of this kind, including a bad interaction with variance.
+Here's what I wrote to Jacques and Jacques at the time:
+
+      The documentation says that only type parameters which cannot
+introduce new equations can be variant.  At the moment this doesn't
+seem to be enforced strictly enough, leading to unsoundness:
+
+       type (_, +_) eq = Refl : ('a, 'a) eq
+
+       let magic : 'a 'b. 'a -> 'b =
+         fun (type a) (type b) (x : a) ->
+            let bad_proof (type a) = (Refl : (< m : a>, <m : a>) eq :>
+(<m : a>, < >) eq) in
+            let downcast : type a. (a, < >) eq -> < > -> a = fun (type
+a) (Refl : (a, < >) eq) (s : <>) -> (s :> a) in
+            (downcast bad_proof ((object method m = x end) :> < >)) # m
+
+2. I think another issue around that time was compilation in an
+inconsistent context, e.g. accepting the following kinds of program:
+
+      let foo : (int, string) eql -> unit =
+       fun Refl -> 1 + "two"
+
+but I don't have a reference to hand.  Relatedly, there's care taken
+in the OCaml compiler not to lift assumptions about types (e.g. for
+address typing) across matches, but again I don't know the history
+offhand.
+
+6. There's an unsound interaction between generative and applicative
+functors as implemented in Moscow ML, involving a notion of generative
+signatures:
+    https://www.seas.upenn.edu/~sweirich/types/archive/1999-2003/msg01136.html
+
+7.  I'm not sure about the explanation in "side-effects in types"
+because (1) Russo's example doesn't involve side effects (2) OCaml
+does allow type expressions that (look like they) can cause mutation,
+such as F(X).t.  It seems that the issue isn't side effects, but types
+that can depend on value-level computation.  (OCaml actually allows
+these, too, but they have to be in generative functors, so that the
+types produced each time the computation is run are considered
+distinct.)
 
 -->

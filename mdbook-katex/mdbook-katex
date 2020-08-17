@@ -15,9 +15,9 @@ function go(book) {
   book.sections.forEach(sect => {
     if (sect.Chapter) {
       let s = sect.Chapter.content;
-      s = s.replace(/\$\$(.+?)\$\$/gs,
+      s = s.replace(/(?<![a-zA-Z])\$\$(.+?)\$\$/gs,
                     (x, m) => katex.renderToString(m, displayOpts));
-      s = s.replace(/(?<!\$)\$([^$]+)\$(?![a-zA-Z])/g,
+      s = s.replace(/(?<!\$)\$([^$\n]+(?:\n[^$\n]*)?)\$(?![a-zA-Z0-9])/g,
                     (x, m) => katex.renderToString(m, inlineOpts));
       sect.Chapter.content = s;
     }

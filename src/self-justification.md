@@ -59,7 +59,7 @@ let rec p : (int, a) eq =
   match p with
   | Refl -> Refl
 ```
-This reasoning is completely circular: it constructs evidence that
+This reasoning is circular: it constructs evidence that
 `int` and `a` are equal by assuming that they are, and using that
 assumption to prove that they are.
 
