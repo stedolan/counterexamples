@@ -40,11 +40,9 @@
 
   - [Underdetermined recursion](underdetermined-recursion.md)
 
-<!--
+  - [A little knowledge...](little-knowledge.md)
 
-  - Monotonicity wrt opacity
-    when a type is revealed, nothing breaks
-    OCaml doesn't have it because of the float-record optimisation
+<!--
 
   - Large injective type constructors ((Set -> Set) -> Set)
     Anticlassical and unsound with impredicativity
