@@ -37,10 +37,11 @@
 
   - [Privacy violation](privacy-violation.md)
 
-
   - [Underdetermined recursion](underdetermined-recursion.md)
 
   - [A little knowledge...](little-knowledge.md)
+
+  - [There's only one Leibniz](only-one-leibniz.md)
 
 <!--
 
@@ -80,20 +81,18 @@
     https://github.com/ocaml/ocaml/issues/7113#issuecomment-473054796 (safe-string)
     https://github.com/agda/agda/issues/2487 - cubical vs. K
 
-  - GeneralizedNewtypeDeriving and roles
-    I like Conor's explanation as "only one Leibniz equality"
-    https://www.reddit.com/r/haskell/comments/y8kca/generalizednewtypederiving_is_very_very_unsafe/c5tawm8/
-    Has anything like this occurred elsewhere?
-    https://ghc.haskell.org/trac/ghc/ticket/1496
-    https://ghc.haskell.org/trac/ghc/ticket/2721
-    https://gitlab.haskell.org/ghc/ghc/-/wikis/roles
-
   - Abstraction vs. global coherence
     Haskell example of optimisation level affecting outcome
     "orphan instances"
     https://stackoverflow.com/questions/34645745/can-i-magic-up-type-equality-from-a-functional-dependency
     https://web.archive.org/web/20071111130403/http://modula3.elegosoft.com/pm3/pkg/modula3/src/discussion/partialRev.html
     https://wiki.haskell.org/Orphan_instance
+
+  - Type well-formedness:
+    https://github.com/rust-lang/rust/issues/25860
+    implicit conversions (subtyping) between types with different well-formedness constraints
+    lets you conclude the well-formedness constraints from no evidence.
+    similar to some interesection type bugs, I think
     
 
 "Injective type families for Haskell", Eisenberg.
@@ -126,10 +125,10 @@ https://github.com/rust-lang/rust/issues/24292
 
 more rust:
 https://github.com/rust-lang/rust/issues/26656
-https://github.com/rust-lang/rust/issues/25860 
 
 http://permalink.gmane.org/gmane.comp.lang.haskell.cafe/77116
 http://lambda-the-ultimate.org/node/4031
+
 
 
 GADTs and subtyping
@@ -195,26 +194,9 @@ https://youtrack.jetbrains.com/issues?q=looks%20like:%20KT-7972
 
 https://youtrack.jetbrains.com/issue/KT-7972
 
+girard1971.v
 
 comments from jeremy:
-
- 1. The first implementation of GADTs in OCaml (2011) had a few
-problems of this kind, including a bad interaction with variance.
-Here's what I wrote to Jacques and Jacques at the time:
-
-      The documentation says that only type parameters which cannot
-introduce new equations can be variant.  At the moment this doesn't
-seem to be enforced strictly enough, leading to unsoundness:
-
-       type (_, +_) eq = Refl : ('a, 'a) eq
-
-       let magic : 'a 'b. 'a -> 'b =
-         fun (type a) (type b) (x : a) ->
-            let bad_proof (type a) = (Refl : (< m : a>, <m : a>) eq :>
-(<m : a>, < >) eq) in
-            let downcast : type a. (a, < >) eq -> < > -> a = fun (type
-a) (Refl : (a, < >) eq) (s : <>) -> (s :> a) in
-            (downcast bad_proof ((object method m = x end) :> < >)) # m
 
 2. I think another issue around that time was compilation in an
 inconsistent context, e.g. accepting the following kinds of program:

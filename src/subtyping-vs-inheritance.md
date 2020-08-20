@@ -34,7 +34,7 @@ the overriden method accepts, which is sound but makes some uses of
 subtyping and specialisation awkward. Eiffel prefers specialisation,
 insisting that subclasses' methods accept subtypes of what the
 overriden method accepts, which is unsound[^cook]. TypeScript is ambivalent,
-requiring only subclasses' methods accept either a supertype _or_ a
+requiring only that subclasses' methods accept either a supertype _or_ a
 subtype of what the overriden method accepts, which is also unsound.
 
 The soundness issue is the same one in both TypeScript and Eiffel:
