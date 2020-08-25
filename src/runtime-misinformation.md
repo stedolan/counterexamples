@@ -46,10 +46,13 @@ representations (e.g. Haskell's `Typeable`, Scala's "checkable types").
 When this is not done carefully, unsoundness results, in which a
 runtime tests identifies two types that are statically known to be
 distinct. This problem has occurred in Scala[^scala] (where the types
-checked in patterns did not always match the static ones) and in
+checked in patterns did not always match the static ones), in
 Hack[^hhvm] (where information about generics was erased at runtime,
 so typecase returned `true` if asked whether a list of ints was a
-`List<string>`). Java has an issue similar to Hack's, where
+`List<string>`), and in Kotlin[^kotlin] (where inner classes share runtime
+information, even if they depend on generic parameters that may vary).
+
+Java has an issue similar to those in Hack and Kotlin, where
 `instanceof` checks ignore generic parameters, but avoids unsoundness
 by limiting which classes can be used for comparison.
 
@@ -72,7 +75,6 @@ The pattern match will succeed for any L, because N == L().
 ```
 ```hack
 // Counterexample by Andrew Kennedy
-
 function mycast<T>(mixed $x, classname<T> $t) : T {
   if ($x instanceof $t) { return $x; }
   else throw new Exception("Type didn't match");
@@ -82,6 +84,28 @@ function expectListOfString(List<string> $x) { ... }
 // If I write expectListOfString(mycast($y, List::class))
 // but with $y having type List<int> then no exception will
 // get thrown at runtime (because of generics erasure).
+```
+```kotlin
+// Counterexample by Vladimir Reshetnikov
+class A<T>(var value: T) {
+    fun replaceValue(x: Any) : Any {
+        class C(var v: T)
+        if(x is C) {
+            value = x.v
+            return x
+        }
+
+        return C(value)
+    }
+}
+
+fun main(args: Array<String>) {
+    val a = A("string")
+    a.replaceValue(A(0).replaceValue("something not of type C"))
+
+    // a.value has type String, but now contains integer 0
+    val s = a.value // crashes
+}
 ```
 ```java
 // This function would do an unsound conversion from Integer to String
@@ -101,4 +125,4 @@ static String bad(Class<List<String>> cls) {
 
 [^hhvm]: <https://github.com/facebook/hhvm/pull/7632> (2017)
 
-<!-- FIXME add kotlin: https://youtrack.jetbrains.com/issue/KT-9584 -->
+[^kotlin]: <https://youtrack.jetbrains.com/issue/KT-9584> (2015)
