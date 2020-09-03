@@ -5,7 +5,10 @@
 
 <!-- These need sorting -->
 
-  - [Polymorphic references]() <!--polymorphic-references.md-->
+[Index and Glossary](GLOSSARY.md)
+
+
+  - [Polymorphic references](polymorphic-references.md)
   - [Covariant containers](general-covariance.md)
   - [Incomplete variance checking](incomplete-variance.md)
 
@@ -44,3 +47,4 @@
   - [There's only one Leibniz](only-one-leibniz.md)
 
   - [Large injections](large-injections.md)
+

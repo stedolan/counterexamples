@@ -98,6 +98,29 @@ end
     i := v.get(a) -- crashes!
   end
 ```
+```ocaml
+class type base = object
+  method name : string 
+end
+class type sub = object
+  method name : string
+  method do_stuff : int
+end
+
+class a = object
+  method go (_ : base) = ()
+end
+
+class b = object (self : < go : sub -> int; .. >)
+  inherit a
+  method! go (x : sub) = x#doStuff
+end
+
+let x : base = object method name = "x" end
+let b = new b
+
+let a = (b :> a)
+```
 ```csharp
 class A {
   public void go(Object arg) {}
@@ -133,7 +156,3 @@ Barbara Liskov and Jeannette Wing (1994)
 [^typescriptStrict]: <https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html> (2017)
 
 [^cats]: [Catching CATs](http://se.inf.ethz.ch/old/projects/markus_keller/diplom), Markus Keller (2003)
-
-<!--
-Java ArrayStoreException
--->

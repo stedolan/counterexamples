@@ -15,11 +15,11 @@ and the compiler must choose consistently. The expression `id("hello")
 In practice, this means that whenever the compiler chooses a type
 parameter it must record that choice and check compatibility with any
 other use of the parameter. Early versions of Generic Java[^java] and
-certain versions of Scala[^scala] failed to do this in all cases,
-leading to unsoundness.  The problem in both languages was incorrectly
-allowing conversions between a type with one arbitrary parameter to a
-type with two arbitrary parameters, losing the constraint that the two
-parameters must be chosen the same way.
+certain versions of Scala[^scala] and Kotlin[^kotlin] failed to do
+this in all cases, leading to unsoundness.  The problem in both
+languages was incorrectly allowing conversions between a type with one
+arbitrary parameter to a type with two arbitrary parameters, losing
+the constraint that the two parameters must be chosen the same way.
 
 ```java
 // Counterexample by Alan Jeffrey
@@ -99,7 +99,32 @@ object Main extends App {
   boom
 }
 ```
+```kotlin
+// Counterexample by Victor Petukhov
+class A<R1, K1>(val r1: R1, var k1: K1)
+class B<R2, K2>(val r2: R2, val k2: K2)
+interface I
+class Q1 : I
+class Q2 : I {
+    fun x() = ""
+}
+fun <L, M> foo(x: A<L, M>, y: B<L, M>) {
+    x.k1 = y.k2
+}
+inline fun <reified T : I> bar(): B<T, T> {
+    val w = T::class.constructors.first().call()
+    return B(w, w)
+}
+fun main() {
+    val a1 = A(Q1(), Q2())
+    val a = a1 as A<Q1, out Any?>
+    foo(a, bar()) // type mismatch in NI
+    println(a1.k1.x())
+}
+```
 
 [^java]: [Generic Java type inference is unsound](https://www.seas.upenn.edu/~sweirich/types/archive/1999-2003/msg00849.html) (TYPES mailing list), Alan Jeffrey (2001)
 
 [^scala]: <https://github.com/scala/bug/issues/9410> (2015)
+
+[^kotlin]: <https://youtrack.jetbrains.com/issue/KT-35679> (2019)

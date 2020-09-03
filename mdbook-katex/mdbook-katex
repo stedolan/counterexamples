@@ -12,13 +12,18 @@ function render(txt) {
 }
 
 function go(book) {
+  let tags = {};
   book.sections.forEach(sect => {
     if (sect.Chapter) {
       let s = sect.Chapter.content;
+      /* KaTeX */
       s = s.replace(/(?<![a-zA-Z])\$\$(.+?)\$\$/gs,
                     (x, m) => katex.renderToString(m, displayOpts));
       s = s.replace(/(?<!\$)\$([^$\n]+(?:\n[^$\n]*)?)\$(?![a-zA-Z0-9])/g,
                     (x, m) => katex.renderToString(m, inlineOpts));
+      /* Index */
+//      s = s.replace(/[TAGS ([^]]*)]\s*/,
+//                    (x, m) => "x);
       sect.Chapter.content = s;
     }
   });

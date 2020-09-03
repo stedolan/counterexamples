@@ -46,11 +46,12 @@ representations (e.g. Haskell's `Typeable`, Scala's "checkable types").
 When this is not done carefully, unsoundness results, in which a
 runtime tests identifies two types that are statically known to be
 distinct. This problem has occurred in Scala[^scala] (where the types
-checked in patterns did not always match the static ones), in
-Hack[^hhvm] (where information about generics was erased at runtime,
-so typecase returned `true` if asked whether a list of ints was a
-`List<string>`), and in Kotlin[^kotlin] (where inner classes share runtime
-information, even if they depend on generic parameters that may vary).
+checked in patterns did not always match the static ones) and some
+cases remain in Dotty[^dotty]. The problem also occurs in Hack[^hhvm]
+(where information about generics was erased at runtime, so typecase
+returned `true` if asked whether a list of ints was a `List<string>`),
+and in Kotlin[^kotlin] (where inner classes share runtime information,
+even if they depend on generic parameters that may vary).
 
 Java has an issue similar to those in Hack and Kotlin, where
 `instanceof` checks ignore generic parameters, but avoids unsoundness
@@ -122,6 +123,8 @@ static String bad(Class<List<String>> cls) {
 ```
 
 [^scala]: <https://github.com/scala/bug/issues/1503> (2008)
+
+[^dotty]: <https://github.com/lampepfl/dotty/issues/9359> (2020)
 
 [^hhvm]: <https://github.com/facebook/hhvm/pull/7632> (2017)
 

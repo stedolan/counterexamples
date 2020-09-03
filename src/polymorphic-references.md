@@ -1,7 +1,7 @@
-# Polymorphic references and the value restriction
+# Polymorphic references
 
 Polymorphism, as found in ML and Haskell (and in C# and Java where
-it's called "generics"[^1]) lets the same definition be reused with
+it's called "generics") lets the same definition be reused with
 multiple different unrelated types. For instance, here's a polymorphic
 function that creates a single-element list:
 ```ocaml
@@ -23,22 +23,19 @@ $$
 $$
 
 That is, if an expression $e$ has a type $A$ which mentions a type
-variable $α$, and the type variable $α$ is not used outside the type
-of $e$, then the value of $e$ can be reused with different types
-substituted for $α$.
-
-# The problem
-
-The justification for the polymorphism rule is that different uses of
-$e$ can use different types for $α$, since nothing outside the type of
-$e$ depends on which type is chosen.
+variable $α$, and the type variable $α$ is used only in the type
+$A$, then the value of $e$ can be reused with different types
+substituted for <nobr>$α$.</nobr>
+The justification is that different uses of $e$ can use different
+types for $α$, since nothing outside the type of $e$ depends on which
+type is chosen. This process is called _generalising_ the type variable $α$.
 
 But if $e$ can allocate mutable state (say, a mutable reference cell,
 or a mutable array), then different uses of $e$ can share state:
 ```ocaml
 (* Rejected by OCaml due to the value restriction *)
-let r = ref [] in (* r : ∀ α . α list ref *)
-r := [0]; (* using r as an int list ref *)
+let r = ref [] in         (* r : ∀ α . α list ref *)
+r := [0];                 (* using r as an int list ref *)
 print_string (List.hd !r) (* using r as a string list ref *)
 (* Crash! *)
 ```
@@ -54,49 +51,153 @@ let f =
     match !r with
     | None -> r := Some x; x
     | Some x -> x
+(* The value restriction means f is not polymorphic,
+   but if it were then this would crash: *)
+let _ =
+  let _ = f 42 in
+  print_string (f "hello")
 ```
-The first time this function is called, it returns its argument. On
-all subsequent calls, it returns whatever it was called with first.
 
-If we naively implemented the polymorphism rule above, we'd end up
-giving this function the type:
-$$
-f : ∀ α . α → α
-$$
-which would crash the second time we called it (if the type didn't
-match the first).
+This problem originated in the ML family of languages, as these were
+the first to combine mutable references and polymorphism. A related
+problem appeared in Standard ML of New Jersey's implementation of
+`call/cc`[^callcc], which like mutable references allows multiple uses of an
+expression to share state (by sharing the continuation). Recently, an
+instance of this problem arose in OCaml, due to an incorrect
+typechecker refactoring[^ocaml411].
 
-?? frontier
+```sml
+(* Counterexample by Bob Harper and Mark Lillibridge *)
+fun left (x,y) = x;
+fun right (x,y) = y;
 
-# Solution 1: separating pure from effectful types
+let val later = (callcc (fn k =>
+	(fn x => x,
+         fn f => throw k (f, fn f => ()))))
+in
+	print (left(later)"hello world!\n");
+	right(later)(fn x => x+2)
+end
+```
+```ocaml
+(* Counterexample by Thierry Martinez *)
+let f x =
+  let ref : type a . a option ref = ref None in
+  ref := Some x;
+  Option.get !ref
 
-# Solution 2: the value restriction
-
-# Solution 3: separating pure from effectful computations
-
-
-newIORef :: IO (IORef a)
-
-(>>=) :: IO a → (a → IO b) → IO b
-
-I need an          IO (∀ a . IORef a)
-but I have a ∀ a . IO (IORef a)
-
-
-
-[^1]: The word "polymorphism" has too many meanings.
-
-???
-
-FIXME: disambig polymorphism
-
-FIXME: everything
+let () = print_string (f 0)
+```
 
 
-<!--
 
-call/cc has the same problem:
+There are several solutions:
 
-http://www.seas.upenn.edu/~sweirich/types/archive/1991/msg00034.html
+  - **Separate pure and effectful types**
 
--->
+    The original solution chosen in Standard ML distinguishes
+    *applicative* type variables from *imperative* type variables.
+    Only applicative variables can be generalised, and only imperative
+    variables can be used in the type of mutable references. There are
+    several variants of this system, from Tofte's original one to
+    extensions used in SML/NJ by MacQueen and
+    others. Greiner[^greiner] has a survey of the variants.
+
+    This approach has the disadvantage that internal use of mutation
+    cannot be hidden: a polymorphic sorting function that internally
+    uses temporary mutable storage cannot be given the same type as
+    one that does not.
+
+    Leroy and Weis[^leroy] propose a related approach that avoids
+    generalising type variables that may be used in mutable
+    references, without needing to distinguish two classes of type
+    variables.  However, to avoid the issue above of functions hiding
+    types in their closure, their solution must distinguish two
+    different sorts of function type according to whether their
+    closure may contain mutable references.
+
+  - **The value restriction**
+
+    A simpler solution was proposed by Wright[^wright] and is now used
+    in most implementations of ML: generalisation of an expression's
+    type only happens if the expression is a *syntactic value*, a
+    class that contains e.g. function definitions and tuple
+    constructions, but not function calls or anything that could
+    possibly allocate a mutable reference.
+
+    This solution is much simpler than the type-based approaches, but
+    in some cases less powerful: notably, a partial application of a
+    curried function cannot be generalised without manually eta-expanding.
+
+    In effect, this is also the solution used by e.g. Java and C#: in these
+    languages, only methods may be given generic types, not
+    fields. This ensures that generalisation only occurs on function
+    definitions.
+
+  - **Effect typing**
+
+    Type-and-effect systems have a typing judgement $Γ ⊢ e : A\, !\,
+    Δ$, where $Δ$ is the *effect*, representing effects that occur as
+    part of evaluating $e$. The typing rule for polymophism in such
+    systems can generalise a type variable $α$ only if it does not
+    appear in $Γ$ *or* $Δ$. If allocating a new mutable reference of
+    type $T$ results in an effect mentioning $T$ appearing in $Δ$,
+    then polymorphic mutable references cannot be created.
+
+  - **Effect marking**
+
+    Instead of a full-blown type-and-effect system, polymorphic
+    mutable references can be avoided using a type-level marker on
+    computations that may perform any effects at all, and then
+    disabling polymorphism on effectful computations.
+
+    This is the approach taken by Haskell with its monadic encoding of
+    effectful computations in the type `IO a`. Values of this type
+    represent "IO actions" - computations that, when performed, yield
+    results of type `a`, possibly causing some side-effects as
+    well. Polymorphism is available as usual when constructing IO
+    actions, but the type of an IO action's result (as used in `do`
+    notation or via monadic combinators) cannot be generalised.
+    Haskell's `do` notation for monadic computation does support a
+    `let` syntax, but its typing is quite different from ordinary
+    `let`, and it does not allow introducing polymorphism even with an
+    explicit annotation.
+
+    This mechanism allows Haskell to distinguish the following two types:
+
+    ```haskell
+    good :: forall a . IO (IORef (Maybe a))
+    bad  :: IO (forall a . IORef (Maybe a))
+    ```
+
+    Here, `good` is an IO action which allocates a mutable reference
+    of an arbitrary type (fine, implementable as `newIORef Nothing`),
+    while `bad` is an IO action which allocations a polymorphic
+    mutable reference (unsound). Note that the only distinction
+    between these two is the placement of `IO`.
+
+    This reliance on marking `IO` is why Haskell's `unsafePerformIO`
+    is actually unsafe, as it can be used to strip the `IO` marker and
+    create polymorphic mutable references:
+    ```haskell
+    import Data.IORef
+    import System.IO.Unsafe
+    badref :: IORef (Maybe a)
+    badref = unsafePerformIO (newIORef Nothing)
+    main = do
+      writeIORef badref (Just 42)
+      Just x <- readIORef badref
+      putStrLn (x 1)
+    ```
+
+
+[^callcc]: [ML with callcc is unsound](http://www.seas.upenn.edu/~sweirich/types/archive/1991/msg00034.html) (TYPES mailing list) Bob Harper and Mark Lillibridge (1991)
+
+[^ocaml411]: <https://github.com/ocaml/ocaml/issues/9856> (2020)
+
+[^greiner]: [Weak Polymorphism Can Be Sound](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.37.5096&rank=1), John Greiner (1996)
+
+[^leroy]: [Polymorphic type inference and assignment](https://hal.inria.fr/hal-01499974/), Xavier Leroy and
+Pierre Weis (1991)
+
+[^wright]: [Simple Imperative Polymorphism](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.37.5096&rank=1), Andrew Wright (1995)
