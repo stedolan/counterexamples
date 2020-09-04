@@ -1,5 +1,7 @@
 # Polymorphic references
 
+TAGS: polymorphism, mutation
+
 Polymorphism, as found in ML and Haskell (and in C# and Java where
 it's called "generics") lets the same definition be reused with
 multiple different unrelated types. For instance, here's a polymorphic
@@ -33,11 +35,10 @@ type is chosen. This process is called _generalising_ the type variable $α$.
 But if $e$ can allocate mutable state (say, a mutable reference cell,
 or a mutable array), then different uses of $e$ can share state:
 ```ocaml
-(* Rejected by OCaml due to the value restriction *)
-let r = ref [] in         (* r : ∀ α . α list ref *)
-r := [0];                 (* using r as an int list ref *)
-print_string (List.hd !r) (* using r as a string list ref *)
-(* Crash! *)
+let r = ref [] in           (* r : ∀ α . α list ref *)
+r := [0];                   (* using r as an int list ref *)
+print_string (List.hd !r)   (* using r as a string list ref *)
+(* Crash! (Well, it would, if the OCaml compiler allowed this) *)
 ```
 
 One obvious-but-broken solution is to disallow polymorphism when the

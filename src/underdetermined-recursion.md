@@ -1,5 +1,7 @@
 # Underdetermined recursion
 
+TAGS: recursive-types
+
 Most type systems permit some flavour of recursive types, allowing the
 programmer to define, say, the type $\n{ListInt}$ representing lists
 of integers. A $\n{ListInt}$ consists of either the empty list, or a

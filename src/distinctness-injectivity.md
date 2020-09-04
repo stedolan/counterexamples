@@ -1,5 +1,7 @@
 # Distinctness I: Injectivity
 
+TAGS: injectivity
+
 Type checkers spend much of their time verifying that pairs of types
 are equal, or at least compatible, checking for instance that the type
 of the argument to a function matches the type it expects.

@@ -5,10 +5,12 @@ var macros = { "\\n": "\\mathsf{#1}", "⊤": "\\top", "⊥": "\\bot" }
 var inlineOpts = { throwOnError: false, macros: macros }
 var displayOpts = { throwOnError: false, macros: macros, displayMode: true }
 
-function render(txt) {
-  return katex.renderToString(txt, {
-    throwOnError: false
-  });
+function renderTags(page, table, taglist) {
+  let tags = taglist.split(/,\s*/).map((t) => {
+     if (!table[t]) table[t] = [];
+     table[t].push(page);
+     return `[[${t}]](glossary.md#${t})`}).join(" ");
+  return "<small>"+tags+"</small>";
 }
 
 function go(book) {
@@ -22,9 +24,26 @@ function go(book) {
       s = s.replace(/(?<!\$)\$([^$\n]+(?:\n[^$\n]*)?)\$(?![a-zA-Z0-9])/g,
                     (x, m) => katex.renderToString(m, inlineOpts));
       /* Index */
-//      s = s.replace(/[TAGS ([^]]*)]\s*/,
-//                    (x, m) => "x);
+      s = s.replace(/TAGS: ([^\n]*)/,
+                    (x, m) => renderTags(sect.Chapter, tags, m));
       sect.Chapter.content = s;
+    }
+  });
+  book.sections.forEach(sect => {
+    if (sect.Chapter && sect.Chapter.name.match(/Glossary/) ) {
+      sect.Chapter.content = sect.Chapter.content.replace(
+        /\[#([^\]]*)\]/gs,
+        (x, m) => {
+          let pages = tags[m];
+          delete tags[m];
+          if (!pages) {
+            return `<span class="error">No pages for ${m}</span>`;
+          }
+          return pages.map((p) =>
+            `  - [${p.name}](${p.path})`).join('\n')
+        });
+      sect.Chapter.content += Object.keys(tags).map(
+        (t) => `<div class="error">Missing entry ${t}</div>`).join('\n');
     }
   });
   return book;

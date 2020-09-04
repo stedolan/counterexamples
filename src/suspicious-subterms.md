@@ -1,5 +1,7 @@
 # Suspicious subterms
 
+TAGS: totality
+
 In _total_ languages, all well-typed expressions terminate and
 infinite loops are impossible. This property is relied upon by proof
 assistants like Coq and Agda: if the result of a subexpression is not

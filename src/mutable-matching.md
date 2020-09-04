@@ -1,5 +1,7 @@
 # Mutable matching
 
+TAGS: mutation
+
 Languages with sum types / algebraic datatypes generally include some
 form of pattern-matching: a `match`/`case`/`switch` construct that can
 inspect values.

@@ -1,5 +1,7 @@
 # Covariant containers
 
+TAGS: subtyping, variance
+
 If there is a subtyping between two types, say that every $\n{Car}$ is
 a $\n{Vehicle}$, then it is natural to extend this subtyping to
 container types, to say that a $\n{List}[\n{Car}]$ is also a

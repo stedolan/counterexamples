@@ -1,5 +1,9 @@
 # Self-justifying facts
 
+TAGS: empty-types
+
+<!-- FIXME tags -->
+
 While the `Empty` type of the previous counterexample has no values at
 all, there are types whose emptiness depends on their parameters. The
 canonical example is the equality type, expressible as a GADT in

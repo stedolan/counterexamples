@@ -1,5 +1,7 @@
 # Some kinds of Anything
 
+TAGS: subtyping, polymorphism
+
 In type systems with polymorphism and subtyping, there are four
 different meanings that the phrase "any type" could have:
 

@@ -1,5 +1,7 @@
 # Overloading and polymorphism
 
+TAGS: polymorphism, overloading
+
 Polymorphism allows a single method to work with an arbitrary,
 unknown type, while overloading allows one of multiple methods to be
 selected by examining the types of the parameters. With overloading,

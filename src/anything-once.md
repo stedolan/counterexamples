@@ -1,5 +1,7 @@
 # Any (single) thing
 
+TAGS: polymorphism
+
 When typechecking a language with polymorphism (generics), it is
 usually up to the compiler to fill in the type parameters when a
 polymorphic function / generic method is called.  For instance, given

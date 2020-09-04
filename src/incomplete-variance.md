@@ -1,5 +1,7 @@
 # Incomplete variance checking
 
+TAGS: subtyping, variance, typecase, recursive-types
+
 With declaration-site variance (see [Covariant
 containers](covariant-containers.md)), it is possible to define a
 class `C` with a covariant parameter `A`, so that `C[X]` is a subtype
@@ -73,11 +75,11 @@ from skipping such checks:
     and Scherer and Rémy[^gadt-scherer] identify several cases where
     they can be soundly combined.
 
-  - **Self types** allow a class to refer to the type of `this` (which
-    may be a subtype of the class being defined). However, if the
-    class has type parameters, any use of a self type must count as a
-    use of those parameters. Failure to do so led to a soundness issue
-    in Hack[^hack-self]:
+  - **Self types** allow a class to refer recursively to the type of
+    `this` (which may be a subtype of the class being
+    defined). However, if the class has type parameters, any use of a
+    self type must count as a use of those parameters. Failure to do
+    so led to a soundness issue in Hack[^hack-self]:
     ```hack
     // Counterexample by Derek Lam
     class Base {}
@@ -111,7 +113,19 @@ from skipping such checks:
     class. This is not by itself unsound, but can cause unsoundness if
     the language also supports downcasting by pattern-matching,
     allowing covariant use of the invariant derived class through the
-    covariant base class. This problem arose in Scala[^scala-case]:
+    covariant base class. This problem arose in Kotlin[^kotlin-case]
+    and in Scala[^scala-case]:
+    ```kotlin
+    // Counterexample by Ilya Gorbunov
+    // List is covariant, MutableList is an invariant subclass
+    private fun <E> List<E>.addAnything(element: E) {
+        if (this is MutableList<E>) {
+            this.add(element)
+        }
+    }
+    
+    arrayListOf(1, 2).addAnything("string")
+    ```
     ```scala
     // Counterexample by Chung-Kil Hur
     sealed abstract class MyADT[+A]
@@ -140,5 +154,7 @@ Paolo G. Giarrusso (2013)
 Gabriel Scherer and Didier Rémy (2013)
 
 [^hack-self]: <https://github.com/facebook/hhvm/issues/7254> (2016)
+
+[^kotlin-case]: <https://youtrack.jetbrains.com/issue/KT-7972> (2015)
 
 [^scala-case]: <https://github.com/scala/bug/issues/8737#issuecomment-292432742> (2016)

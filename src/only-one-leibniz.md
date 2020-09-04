@@ -1,5 +1,7 @@
 # There's only one Leibniz
 
+TAGS: equality
+
 Leibniz's characterisation of what it means for $A$ to equal $B$ is
 that if $P(A)$ holds for any property <nobr>$P$,</nobr> then so does $P(B)$. In
 other words, equality is the relation that allows substitution of $B$

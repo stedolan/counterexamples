@@ -1,5 +1,7 @@
 # Runtime type misinformation
 
+TAGS: typecase
+
 The typing judgement $e : A$ is a static, syntactic judgement based on
 the syntax of $e$ and $A$. Sometimes, it would be useful to have a
 runtime counterpart, allowing expressions like $e \;?\; A$ which

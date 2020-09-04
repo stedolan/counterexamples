@@ -1,5 +1,7 @@
 # Subtyping vs. inheritance
 
+TAGS: subtyping
+
 In an object-oriented language, after writing a class `A` there are
 two different ways we might want to extend it:
 
@@ -143,10 +145,8 @@ terms "catcalls", for "Changed Availability or Type"). However, this
 check is quite tricky, and it appears that no Eiffel compilers have
 ever actually implemented it[^cats].
 
-One _non_-example of this problem is OCaml: its object system
-supports both subtyping and inheritance, but a class `B` inheriting
-from a class `A` does not necessarily make `B` a subtype of `A`.
-
+<!-- TODO: mention OCaml's self type setup:
+     inheritance does not imply subtyping -->
 
 [^liskov]: [A behavioral notion of subtyping](https://dl.acm.org/doi/10.1145/197320.197383),
 Barbara Liskov and Jeannette Wing (1994)

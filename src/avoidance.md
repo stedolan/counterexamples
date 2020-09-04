@@ -1,5 +1,7 @@
 # The avoidance problem
 
+TAGS: scoping
+
 A type system which infers types can occasionally find itself having
 inferred a type that refers to something (a type, module, etc.) which
 is about to go out of scope. Referring to things which are no longer

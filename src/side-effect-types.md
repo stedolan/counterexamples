@@ -1,5 +1,7 @@
 # Side-effects in types
 
+TAGS: mutation
+
 Types can be passed around as first-class values in several languages,
 either alone or as part of another structure (e.g. first-class modules
 in OCaml, abstract type members in Scala). If the language also allows

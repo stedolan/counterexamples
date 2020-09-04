@@ -1,5 +1,7 @@
 # Distinctness II: Recursion
 
+TAGS: recursive-types
+
 (This is the same sort of problem as [the previous
 counterexample](distinctness-injectivity.md), so read that first for
 context.)

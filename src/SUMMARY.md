@@ -5,14 +5,16 @@
 
 <!-- These need sorting -->
 
-[Index and Glossary](GLOSSARY.md)
+[Index and Glossary](glossary.md)
 
 
   - [Polymorphic references](polymorphic-references.md)
   - [Covariant containers](general-covariance.md)
   - [Incomplete variance checking](incomplete-variance.md)
 
-  - [Curry's paradox]() <!--currys-paradox.md-->
+  - [Objects under construction](under-construction.md)
+  
+  - [Curry's paradox](currys-paradox.md)
 
   - [Eventually, nothing](eventually-nothing.md)
   - [Self-justifying facts](self-justification.md)

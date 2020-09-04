@@ -1,5 +1,7 @@
 # A little knowledge...
 
+TAGS: abstract-types
+
 The general principle broken by this counterexample is not soundness
 but *monotonicity*: given more knowledge about the program, the
 compiler should do a better job compiling it.

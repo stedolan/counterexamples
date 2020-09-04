@@ -1,5 +1,7 @@
 # Large injections
 
+TAGS: injectivity
+
 There are two distinct points of view one can have about type definitions:
 
   - **Types are found**: there is a pre-existing universe containing

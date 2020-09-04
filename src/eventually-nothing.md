@@ -1,5 +1,7 @@
 # Eventually, nothing
 
+TAGS: empty-types
+
 Many type systems allow an empty type, which has no values:
 
 ```_rust
