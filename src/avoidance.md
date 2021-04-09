@@ -1,6 +1,6 @@
 # The avoidance problem
 
-TAGS: scoping
+TAGS: scoping, subtyping
 
 A type system which infers types can occasionally find itself having
 inferred a type that refers to something (a type, module, etc.) which
@@ -10,8 +10,8 @@ in scope is ill-formed, and doing it generally leads to unsoundness.
 So, the type system must approximate the desired type, using only
 what's still in scope and avoiding the names going out of scope, which
 is known as the *avoidance problem*. This is hard, and in most type
-systems there is no general way to do it. Some systems employ
-heuristics, but these heuristics are necessarily fragile.
+systems there is no general way to do it, and some systems employ
+fragile heuristics.
 
 An example of this due to Dreyer[^dreyer] can be found in OCaml, when a
 parameterised module is instantiated with an anonymous module:
@@ -39,6 +39,34 @@ The approximation process fails to respect equivalences between module
 signatures, which is typical of heuristic solutions to the avoidance
 problem.
 
+Languages with subtyping and top/bottom types $\n{Any}$ and $\n{Nothing}$ can
+use a different solution to the avoidance problem: types that go out
+of scope are approximated as $\n{Any}$ when used covariantly (as an
+output) and $\n{Nothing}$ when used contravariantly (as an input). For
+instance, when the type $A$ goes out of scope, a function of type
+$\n{List}[A] → \n{List}[A]$ becomes $\n{List}[\n{Nothing}] → \n{List}[\n{Any}]$.
+
+Scala uses this approach. However, due to the presence of constraints
+in Scala types (a type $T[A]$ may be well-defined only for some $A$),
+it is not always valid to replace occurrences of $A$ with $\n{Any}$ or
+$\n{Nothing}$.  This caused a bug in Scala[^scala], where invalid types were
+sometimes inferred:
+```scala
+// Counterexample by Guillaume Martres
+class Contra[-T >: Null]
+
+object Test {
+  def foo = {
+    class A
+    new Contra[A]
+  }
+}
+// The inferred type of foo is Contra[Nothing],
+// but this isn't a legal type
+```
+
 [^dreyer]: Fig 4.12 on p. 79 of [Understanding and Evolving the ML
 Module System](https://www.cs.cmu.edu/~rwh/theses/dreyer.pdf), Derek
 Dreyer (2005)
+
+[^scala]: <https://github.com/lampepfl/dotty/issues/6205> (2019)

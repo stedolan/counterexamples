@@ -24,23 +24,37 @@ class B extends A implements Comparable<B>{
        }
 }
 ```
+```scala
+// Counterexample by Kota Mizushima
+// (translation of Java counterexample, with the same effect)
+class A {
+  def compareTo(o: Any): Int = 0
+}
+class B extends A with Comparable[B] {
+  def compareTo(b: B): Int = 0
+}
+object C {
+  def main(args: Array[String]): Unit = {
+    println(new B().compareTo(new Object()))
+  }
+}
+```
 
-On earlier versions of Java, this program crashed with a
-`ClassCastException`, despite containing no casts. The issue is that
-in order to implement `B`'s `compareTo(B)`, the compiler inserts a
-"bridge method" `compareTo(Object)` containing a cast to `B`. The
-bridge method is necessary because
-the `compareTo` method is specified by `Comparable`, and other users
-of the `Comparable` interface will select the `compareTo(Object)`
-overload, as they do not necessarily know about `B`.  However, this
-bridge method accidentally overrides `A`'s `compareTo(Object)` method,
-and gets called from `main` instead, and the cast
-fails.
+On earlier versions of Java (and Scala[^scala2]), this program crashed
+with a `ClassCastException`, despite containing no casts. The issue is
+that in order to implement `B`'s `compareTo(B)`, the compiler inserts
+a "bridge method" `compareTo(Object)` containing a cast to `B`. The
+bridge method is necessary because the `compareTo` method is specified
+by `Comparable`, and other users of the `Comparable` interface will
+select the `compareTo(Object)` overload, as they do not necessarily
+know about `B`.  However, this bridge method accidentally overrides
+`A`'s `compareTo(Object)` method, and gets called from `main` instead,
+and the cast fails.
 
 In current Java, bridge methods still exist, but the program
 above is rejected.
 
-Scala[^scala] suffers a related issue, also caused by an
+Scala[^scala] additionally has a related issue, also caused by an
 interaction of overloading and polymorphism. Scala allows a mixture of
 structural and nominal typing. An object can be given a structural
 type that exposes only some of its capabilities, including exposing
@@ -70,5 +84,7 @@ signature `addVertex(Object)`.
 
 [^java]: [Java generics unsoundness?](http://lists.seas.upenn.edu/pipermail/types-list/2006/001091.html)
  (TYPES mailing list), Eijiro Sumii (2006)
+
+[^scala2]: <https://github.com/scala/bug/issues/9912> (2016)
 
 [^scala]: <https://github.com/scala/bug/issues/2672> (2009)

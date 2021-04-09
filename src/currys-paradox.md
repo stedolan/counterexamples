@@ -54,7 +54,8 @@ recursion"), avoiding Curry's paradox.
 
 (In fact, due to a different issue, banning negative recursion is
 often not enough, and recursive types must be restricted further to
-"strictly positive recursion" to remain consistent. See ??)
+"strictly positive recursion" to remain consistent. See [Positivity,
+strict and otherwise](strict-positivity.md))
 
 
 

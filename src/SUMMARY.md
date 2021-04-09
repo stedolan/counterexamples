@@ -31,6 +31,7 @@
 
   - [Distinctness I: Injectivity](distinctness-injectivity.md)
   - [Distinctness II: Recursion](distinctness-recursion.md)
+  <!-- FIXME: distinctness-options.md -->
 
   - [Overloading and polymorphism](overloading-polymorphism.md)
 
@@ -38,11 +39,15 @@
 
   - [Subtyping vs. inheritance](subtyping-vs-inheritance.md)
 
+  - [Selfishness](selfishness.md)
+
   - [Suspicious subterms](suspicious-subterms.md)
 
   - [Privacy violation](privacy-violation.md)
 
   - [Underdetermined recursion](underdetermined-recursion.md)
+
+  - [Overdetermined recursion](overdetermined-recursion.md)
 
   - [A little knowledge...](little-knowledge.md)
 
@@ -50,3 +55,12 @@
 
   - [Large injections](large-injections.md)
 
+  - [Intersecting references](intersecting-references.md)
+
+  - [Positivity, strict and otherwise](strict-positivity.md)
+
+  - [Scope escape](scope-escape.md)
+
+  - [Under false pretenses](false-pretenses.md)
+
+  - [Nearly-universal quantification](nearly-universal.md)

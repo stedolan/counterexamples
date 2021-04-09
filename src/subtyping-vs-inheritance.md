@@ -114,14 +114,10 @@ class a = object
 end
 
 class b = object (self : < go : sub -> int; .. >)
+  (* does not compile *)
   inherit a
   method! go (x : sub) = x#doStuff
 end
-
-let x : base = object method name = "x" end
-let b = new b
-
-let a = (b :> a)
 ```
 ```csharp
 class A {
@@ -145,8 +141,50 @@ terms "catcalls", for "Changed Availability or Type"). However, this
 check is quite tricky, and it appears that no Eiffel compilers have
 ever actually implemented it[^cats].
 
-<!-- TODO: mention OCaml's self type setup:
-     inheritance does not imply subtyping -->
+The same issue can crop up with *class methods*, which are methods
+that are associated with a class rather than with an instance of that
+class. Languages with class methods allow classes to be passed around
+as values, dispatching method calls to the appropriate class as
+determined at runtime.
+
+When class methods can be overridden in a subclass, this raises the
+same subtyping vs. inheritance issue: may the subclass specialise its
+argument type, or must it accept a supertype? A soundness issue along
+these lines (analagous to the one above) arose in Swift[^swift]:
+```swift
+// Counterexample by Ben Pious
+class C<T> {
+    
+    let t: T
+    
+    init(t: T) {
+        self.t = t
+        type(of: self).f()(self)
+    }
+    
+    class func f<U>() -> (U) -> () where U: C  {
+        return { (u: U) in
+            print(u.t)
+        }
+    }
+}
+
+class E {
+    let g = "Expected to Print"
+}
+
+class D: C<E> {
+    override class func f<U>() -> (U) -> () where U: E {
+        return { (u: E) in
+            print(u.g)
+        }
+    }
+}
+
+let d = D(t: E()) // prints random garbage
+```
+
+
 
 [^liskov]: [A behavioral notion of subtyping](https://dl.acm.org/doi/10.1145/197320.197383),
 Barbara Liskov and Jeannette Wing (1994)
@@ -156,3 +194,5 @@ Barbara Liskov and Jeannette Wing (1994)
 [^typescriptStrict]: <https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html> (2017)
 
 [^cats]: [Catching CATs](http://se.inf.ethz.ch/old/projects/markus_keller/diplom), Markus Keller (2003)
+
+[^swift]: <https://bugs.swift.org/browse/SR-7573> (2018)

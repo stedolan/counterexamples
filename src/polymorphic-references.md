@@ -65,7 +65,8 @@ problem appeared in Standard ML of New Jersey's implementation of
 `call/cc`[^callcc], which like mutable references allows multiple uses of an
 expression to share state (by sharing the continuation). Recently, an
 instance of this problem arose in OCaml, due to an incorrect
-typechecker refactoring[^ocaml411].
+typechecker refactoring[^ocaml411]. The problem has also appeared in
+Elm[^elm], using channels to provide the shared mutable state.
 
 ```sml
 (* Counterexample by Bob Harper and Mark Lillibridge *)
@@ -89,7 +90,29 @@ let f x =
 
 let () = print_string (f 0)
 ```
+```elm
+-- Counterexample by Izaak Meckler
+import Signal
+import Html
+import Html.Attributes(style)
+import Html.Events(..)
+import Maybe
 
+c = Signal.channel Nothing
+
+s : Signal Int
+s = Signal.map (Maybe.withDefault 0) (Signal.subscribe c)
+
+draw x =
+  Html.div
+  [ onClick (Signal.send c (Just "I am not an Int"))
+  , style [("width", "100px"), ("height", "100px")]
+  ]
+  [ Html.text (toString (x + 1)) ]
+  |> Html.toElement 100 100
+
+main = Signal.map draw s
+```
 
 
 There are several solutions:
@@ -195,6 +218,8 @@ There are several solutions:
 [^callcc]: [ML with callcc is unsound](http://www.seas.upenn.edu/~sweirich/types/archive/1991/msg00034.html) (TYPES mailing list) Bob Harper and Mark Lillibridge (1991)
 
 [^ocaml411]: <https://github.com/ocaml/ocaml/issues/9856> (2020)
+
+[^elm]: <https://github.com/elm/compiler/issues/889> (2015)
 
 [^greiner]: [Weak Polymorphism Can Be Sound](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.37.5096&rank=1), John Greiner (1996)
 

@@ -71,4 +71,36 @@ fun main(args: Array<String>) {
 }
 ```
 
+In Java, it's additionally possible for `final` fields to never be
+initialised, because a reference to an uninitialised object can leak
+out via an exception:
+```java
+class Ex extends RuntimeException {
+    public Object o;
+    public Ex(Object a) { this.o = a; }
+    static int leak(Object x) { throw new Ex(x); }
+}
+
+class A {
+    public final int leak = Ex.leak(this);
+    public final int thing = Integer.parseInt("42");
+}
+
+public class Test {
+    static A make() {
+        try {
+            return new A();
+        } catch (Ex x) {
+            return (A)x.o;
+        }
+    }
+    public static void main(String []args){
+       A a = make();
+       // a is uninitialised: its 'thing' field is zero
+       System.out.println(a.thing);
+    }
+}
+```
+
+
 [^kotlin]: <https://youtrack.jetbrains.com/issue/KT-10455> (2015)

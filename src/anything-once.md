@@ -18,10 +18,10 @@ In practice, this means that whenever the compiler chooses a type
 parameter it must record that choice and check compatibility with any
 other use of the parameter. Early versions of Generic Java[^java] and
 certain versions of Scala[^scala] and Kotlin[^kotlin] failed to do
-this in all cases, leading to unsoundness.  The problem in both
-languages was incorrectly allowing conversions between a type with one
-arbitrary parameter to a type with two arbitrary parameters, losing
-the constraint that the two parameters must be chosen the same way.
+this in all cases, leading to unsoundness.  The problem in each case
+was incorrectly allowing conversions from a type with one arbitrary
+parameter to a type with two arbitrary parameters, losing the
+constraint that the two parameters must be chosen the same way.
 
 ```java
 // Counterexample by Alan Jeffrey

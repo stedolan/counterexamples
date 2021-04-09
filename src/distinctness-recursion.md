@@ -111,38 +111,13 @@ end
 (* The expression f B.eq segfaults *)
 ```
 
-Another instance of this bug also occurred in OCaml: OCaml
-explicitly supports recursive types when the `-rectypes` option is
-passed to the compiler. However, when the type checker accepts options
-such that affect typechecking, it is important to ensure that code
-compiled with `-rectypes` (which allows recursive types) cannot be
-linked with code compiled without (which assumes recursive types are
-absent). Otherwise, unsoundness results:[^ocaml2]
-
-```ocaml
-(* Counterexample by Gabriel Scherer and Benoît Vaugon *)
-(* blah.ml, compiled without -rectypes *)
-type ('a, 'b, 'c) eqtest =
-  | Refl : ('a, 'a, float) eqtest
-  | Diff : ('a, 'b, int) eqtest
-
-let test : type a b . (unit -> a, a, b) eqtest -> b = function
-  | Diff -> 42
-
-(* bluh.ml, compiled with -rectypes *)
-let () =
-  print_float Blah.(test (Refl : (unit -> 'a as 'a, 'a, _) eqtest))
-```
-
 [^haskell]: <https://ghc.haskell.org/trac/ghc/ticket/8162> (2013)
 
 [^ocaml1]: <https://github.com/ocaml/ocaml/issues/6993> (2015)
 
-[^ocaml2]: <https://github.com/ocaml/ocaml/issues/6405> (2014)
 
 <!-- FIXME:
  two points not well made:
   distinction between "not provably equal" and "provably distinct"
     negation-as-failure doesn't cut it under abstraction!
-  linking with different type options is bad in general, not just here
 -->

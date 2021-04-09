@@ -52,6 +52,7 @@ checked in patterns did not always match the static ones) and some
 cases remain in Dotty[^dotty]. The problem also occurs in Hack[^hhvm]
 (where information about generics was erased at runtime, so typecase
 returned `true` if asked whether a list of ints was a `List<string>`),
+in Flow[^flow] (which also performs typecase on erased generics),
 and in Kotlin[^kotlin] (where inner classes share runtime information,
 even if they depend on generic parameters that may vary).
 
@@ -87,6 +88,30 @@ function expectListOfString(List<string> $x) { ... }
 // If I write expectListOfString(mycast($y, List::class))
 // but with $y having type List<int> then no exception will
 // get thrown at runtime (because of generics erasure).
+```
+```flow
+// Counterexample by William Chargin
+// @flow
+class Box<T> {
+  +field: T;
+  constructor(x) {
+    this.field = x;
+  }
+}
+
+function asBox<T>(x: T | Box<T>): Box<T> {
+  if (x instanceof Box) {
+    // Here, `x` is refined to be `Box<T>`. This is unsound: `T` could
+    // well be `Box<U>` for some other `U`. Example below.
+    return x;
+  } else {
+    // whatever
+    return new Box(x);
+  }
+}
+
+const stringStringBox: Box<Box<string>> = asBox(new Box("wat"));  // unsound!
+stringStringBox.field.field.substr(0);  // runtime error
 ```
 ```kotlin
 // Counterexample by Vladimir Reshetnikov
@@ -129,5 +154,7 @@ static String bad(Class<List<String>> cls) {
 [^dotty]: <https://github.com/lampepfl/dotty/issues/9359> (2020)
 
 [^hhvm]: <https://github.com/facebook/hhvm/pull/7632> (2017)
+
+[^flow]: <https://github.com/facebook/flow/issues/6741> (2018)
 
 [^kotlin]: <https://youtrack.jetbrains.com/issue/KT-9584> (2015)

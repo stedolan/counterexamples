@@ -63,12 +63,12 @@ println!("string: {}", s);
 ```
 ```ocaml
 (* The OCaml compiler does not delete empty loops, so
-   computing bottom correctly diverges rather than crashing *)
+   computing bottom correctly hangs rather than crashing *)
 print_endline (elim bottom)
 ```
 ```haskell
 -- GHC does not delete empty loops, so
--- this correctly diverges rather than crashing
+-- this correctly hangs rather than crashing
 putStrLn (elim bottom)
 ```
 When optimisations are turned on, this program crashes in Rust[^rustbug].

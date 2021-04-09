@@ -16,7 +16,7 @@ boundaries can cause programs to stop working.
 
 This property does not hold in OCaml, due to an optimisation that uses
 a special representation for a record containing only floating-point
-numbers (which are usually boxed in OCaml). However, since this
+numbers (which are usually boxed in OCaml). Since this
 representation is incompatible with the normal one, it is possible for
 a program to depend on the optimisation _not_ being applied:
 
