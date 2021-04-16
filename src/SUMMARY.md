@@ -17,8 +17,7 @@
   - [Curry's paradox](currys-paradox.md)
 
   - [Eventually, nothing](eventually-nothing.md)
-  - [Self-justifying facts](self-justification.md)
-  - [Null evidence]() <!--null-evidence.md-->
+  - [Dubious evidence](dubious-evidence.md)
 
   - [Some kinds of Anything](anythings.md)
   - [Any (single) thing](anything-once.md)

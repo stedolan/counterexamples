@@ -44,7 +44,10 @@ the compiler to crash, it is often a soundness issue: inferred types
 that escape their scope can cause, for instance, the creation of
 [polymorphic references](polymorphic-references.md).
 
-Scope escape issues have occurred in Haskell[^haskell], OCaml[^ocaml], Rust[^rust] and Scala[^scala].
+Scope escape bugs have occurred at one time or another in almost every
+implementation of polymorphism (especially higher-rank polymorphism),
+including Haskell[^haskell], OCaml[^ocaml], Rust[^rust] and
+Scala[^scala]:
 
 ```haskell
 -- Counterexample by Simon Peyton Jones
