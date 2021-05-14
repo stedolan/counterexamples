@@ -15,10 +15,6 @@ implementors of static type systems, as well as programmers interested
 in how type systems fit together (or don't).
 
 
-
-
-
-
 ## Type systems
 
 For the purposes of this book, a "type system" is a system that does
