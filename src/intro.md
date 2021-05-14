@@ -146,7 +146,7 @@ be wrong for several reasons:
     over-represented due to familiarity,
 
   - the same applies to other languages that the author likes or at
-    least vaguely understand,s and
+    least vaguely understands, and
 
   - languages whose community does a good job of publicly tracking,
     explaining, and writing up issues that arise are also
