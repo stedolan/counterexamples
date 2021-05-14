@@ -4,11 +4,11 @@ Welcome to *Counterexamples in Type Systems*, a compendium of horrible
 programs that crash, segfault or otherwise explode.
 
 The "counterexamples" here are programs that go wrong in ways that
-should be impossible: crash in safe Rust, produce `ClassCastException`
-in cast-free Java, segfault in safe Haskell, and so on. This book is a
-collection of such counterexamples, each with some explanation of what
-went wrong and references to the languages or systems in which the
-problem occurred.
+should be impossible: corrupt memory in Rust, produce
+`ClassCastException` in cast-free Java, segfault in Haskell, and so
+on. This book is a collection of such counterexamples, each with some
+explanation of what went wrong and references to the languages or
+systems in which the problem occurred.
 
 It's intended as a resource for researchers, designers and
 implementors of static type systems, as well as programmers interested

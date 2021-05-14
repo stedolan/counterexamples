@@ -5,6 +5,9 @@ multilingual = false
 src = "src"
 title = "Counterexamples in Type Systems"
 
+[output.html]
+git-repository-url = "https://github.com/stedolan/counterexamples"
+
 [preprocessor.katex]
 # command = "bash -c 'tee /tmp/j$RANDOM | jq .[1]'"
 command = "mdbook-katex/mdbook-katex"
