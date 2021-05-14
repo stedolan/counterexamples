@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Distinctness II: Recursion - Counterexamples in Type Systems</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        <!-- KaTeX stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+<style>
+pre[data-codetab=hide] { display: none; }
+pre[data-codetab] { margin-top: 0 }
+.error { color: #f00; }
+.codetab-bar button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+.codetab-bar button:hover {
+  background-color: #ddd;
+}
+.codetab-bar button[data-codetab=show] {
+  background-color: #ccc;
+}
+</style>
+
+<script>
+function langName(node) {
+  let lang = node.querySelector('code[class^="language-"]');
+  if (lang) lang = lang.className.match(/language-(\w+)/)[1];
+  lang = lang ? lang : "code";
+  lang = lang.replace(/^\w/, s => s.toUpperCase());
+  lang = {Ocaml:"OCaml","_rust":"Rust","Sml":"Standard ML","Typescript":"TypeScript","Csharp":"C#"}[lang] || lang;
+  return lang;
+}
+function insertCodeTabs() {
+  while (true) {
+    let code = document.querySelector('pre:not([data-codetab])');
+    if (!code) return;
+    let bar = document.createElement("DIV");
+    bar.classList.add('codetab-bar');
+    let tabs = [], buttons = [];
+    while (code && code.nodeName == "PRE") {
+      let button = document.createElement('BUTTON');
+      button.innerHTML = langName(code);
+      tabs.push(code);
+      buttons.push(button);
+      bar.appendChild(button);
+      code = code.nextElementSibling;
+    }
+    tabs[0].parentNode.insertBefore(bar, tabs[0]);
+    let select = function(t,b) {
+      tabs.forEach(t => t.dataset.codetab="hide");
+      buttons.forEach(b => b.dataset.codetab="hide");
+      t.dataset.codetab = "show";
+      b.dataset.codetab = "show";
+    };
+    for (var i = 0; i < tabs.length; i++) {
+      let ix = i;
+      buttons[ix].addEventListener('click', ev => select(tabs[ix], buttons[ix]));
+    }
+    select(tabs[0], buttons[0]);
+  }
+}
+document.addEventListener('DOMContentLoaded', insertCodeTabs);
+</script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 450) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title.html">Counterexamples in Type Systems</a></li><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Index and Glossary</a></li><li class="chapter-item expanded "><a href="polymorphic-references.html"><strong aria-hidden="true">1.</strong> Polymorphic references</a></li><li class="chapter-item expanded "><a href="general-covariance.html"><strong aria-hidden="true">2.</strong> Covariant containers</a></li><li class="chapter-item expanded "><a href="incomplete-variance.html"><strong aria-hidden="true">3.</strong> Incomplete variance checking</a></li><li class="chapter-item expanded "><a href="under-construction.html"><strong aria-hidden="true">4.</strong> Objects under construction</a></li><li class="chapter-item expanded "><a href="currys-paradox.html"><strong aria-hidden="true">5.</strong> Curry's paradox</a></li><li class="chapter-item expanded "><a href="eventually-nothing.html"><strong aria-hidden="true">6.</strong> Eventually, nothing</a></li><li class="chapter-item expanded "><a href="dubious-evidence.html"><strong aria-hidden="true">7.</strong> Dubious evidence</a></li><li class="chapter-item expanded "><a href="anythings.html"><strong aria-hidden="true">8.</strong> Some kinds of Anything</a></li><li class="chapter-item expanded "><a href="anything-once.html"><strong aria-hidden="true">9.</strong> Any (single) thing</a></li><li class="chapter-item expanded "><a href="mutable-matching.html"><strong aria-hidden="true">10.</strong> Mutable matching</a></li><li class="chapter-item expanded "><a href="runtime-misinformation.html"><strong aria-hidden="true">11.</strong> Runtime type misinformation</a></li><li class="chapter-item expanded "><a href="overloading-polymorphism.html"><strong aria-hidden="true">12.</strong> Overloading and polymorphism</a></li><li class="chapter-item expanded "><a href="distinctness-injectivity.html"><strong aria-hidden="true">13.</strong> Distinctness I: Injectivity</a></li><li class="chapter-item expanded "><a href="distinctness-recursion.html" class="active"><strong aria-hidden="true">14.</strong> Distinctness II: Recursion</a></li><li class="chapter-item expanded "><a href="distinctness-options.html"><strong aria-hidden="true">15.</strong> Distinctness III: Options</a></li><li class="chapter-item expanded "><a href="subtyping-vs-inheritance.html"><strong aria-hidden="true">16.</strong> Subtyping vs. inheritance</a></li><li class="chapter-item expanded "><a href="selfishness.html"><strong aria-hidden="true">17.</strong> Selfishness</a></li><li class="chapter-item expanded "><a href="privacy-violation.html"><strong aria-hidden="true">18.</strong> Privacy violation</a></li><li class="chapter-item expanded "><a href="unstable-types.html"><strong aria-hidden="true">19.</strong> Unstable type expressions</a></li><li class="chapter-item expanded "><a href="avoidance.html"><strong aria-hidden="true">20.</strong> The avoidance problem</a></li><li class="chapter-item expanded "><a href="little-knowledge.html"><strong aria-hidden="true">21.</strong> A little knowledge...</a></li><li class="chapter-item expanded "><a href="underdetermined-recursion.html"><strong aria-hidden="true">22.</strong> Underdetermined recursion</a></li><li class="chapter-item expanded "><a href="overdetermined-recursion.html"><strong aria-hidden="true">23.</strong> Overdetermined recursion</a></li><li class="chapter-item expanded "><a href="scope-escape.html"><strong aria-hidden="true">24.</strong> Scope escape</a></li><li class="chapter-item expanded "><a href="false-pretenses.html"><strong aria-hidden="true">25.</strong> Under false pretenses</a></li><li class="chapter-item expanded "><a href="suspicious-subterms.html"><strong aria-hidden="true">26.</strong> Suspicious subterms</a></li><li class="chapter-item expanded "><a href="only-one-leibniz.html"><strong aria-hidden="true">27.</strong> There's only one Leibniz</a></li><li class="chapter-item expanded "><a href="intersecting-references.html"><strong aria-hidden="true">28.</strong> Intersecting references</a></li><li class="chapter-item expanded "><a href="strict-positivity.html"><strong aria-hidden="true">29.</strong> Positivity, strict and otherwise</a></li><li class="chapter-item expanded "><a href="nearly-universal.html"><strong aria-hidden="true">30.</strong> Nearly-universal quantification</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Counterexamples in Type Systems</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/stedolan/counterexamples" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#distinctness-ii-recursion" id="distinctness-ii-recursion">Distinctness II: Recursion</a></h1>
+<p><small><a href="glossary.html#recursive-types">[recursive-types]</a></small></p>
+<p>(This is the same sort of problem as <a href="distinctness-injectivity.html">the previous
+counterexample</a>, so read that first for
+context.)</p>
+<p>When checking distinctness of two types that contain type variables,
+one approach is to attempt to unify them and see whether there is a
+common unifier. (Be careful! It is easy to <a href="distinctness-injectivity.html">assume
+injectivity</a> this way).</p>
+<p>Unification can fail because of the <em>occurs check</em>, under which a type
+variable cannot be unified with a type mentioning the same
+variable. For instance, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>→</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">α → α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> fail to unify because of this
+check.</p>
+<p>So, if using unification to check distictness, it is natural to
+believe that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>→</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">α → α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> are distinct, regardless of what <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> is.
+However, this is only sound if there are no infinite or recursive
+types in the language: if a type <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span> could be constructed equal to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">T
+→ T</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span>, then <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>→</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">α → α</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> would no longer be distinct.</p>
+<p>Even when they are not directly supported, it is easy for infinite or
+recursive types to sneak into the language, which creates a soundness
+issue in languages checking distinctness by unification. This occurred
+in both Haskell<sup class="footnote-reference"><a href="#haskell">1</a></sup> and OCaml<sup class="footnote-reference"><a href="#ocaml1">2</a></sup>, for the same reason: if the definition of a
+recursive type is split across module boundaries (multiple files with
+type families in Haskell, or a single recursive module in OCaml), then
+the typechecker will never see the construction of the whole recursive
+type and so cannot reject it. This allows a counterexample to
+distinctness, which can be exploited either via a Haskell type family
+or and OCaml GADT match.</p>
+<pre><code class="language-haskell">-- Counterexample by Akio Takano
+-- Base.hs
+{-# LANGUAGE TypeFamilies #-}
+module Base where
+
+-- This program demonstrates how Int can be cast to (IO String)
+-- using GHC 7.6.3.
+type family F a
+type instance F (a -&gt; a) = Int
+type instance F (a -&gt; a -&gt; a) = IO String
+
+-- Given this type family F, it is sufficient to prove
+-- (LA -&gt; LA) ~ (LA -&gt; LA -&gt; LA)
+-- for some LA. This needs to be done in such a way that
+-- GHC does not notice LA is an infinite type, otherwise
+-- it will complain.
+--
+-- This can be done by using 2 auxiliary modules, each of which
+-- provides a fragment of the proof using different partial knowledge
+-- about the definition of LA.
+--
+-- LA -&gt; LA
+-- = {LA~LB-&gt;LB} -- only Int_T.hs knows this
+-- LA -&gt; LB -&gt; LB
+-- = {LA~LB}     -- only T_IOString.hs knows this
+-- LA -&gt; LA -&gt; LA
+type family LA
+type family LB
+data T = T (F (LA -&gt; LB -&gt; LB))
+
+-- Int_T.hs
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
+module Int_T where
+import Base
+type instance LA = LB -&gt; LB
+
+int_t0 :: Int -&gt; T
+int_t0 = T
+
+-- T_IOString.hs
+{-# LANGUAGE TypeFamilies, UndecidableInstances #-}
+module T_IOString where
+import Base
+type instance LB = LA
+
+t_ioString :: T -&gt; IO String
+t_ioString (T x) = x
+
+-- Main.hs
+import Int_T
+import T_IOString
+
+main :: IO ()
+main = t_ioString (int_t0 100) &gt;&gt;= print
+</code></pre>
+<pre><code class="language-ocaml">(* Counterexample by Stephen Dolan *)
+type (_, _) eqp = Y : ('a, 'a) eqp | N : string -&gt; ('a, 'b) eqp
+let f : ('a list, 'a) eqp -&gt; unit = function N s -&gt; print_string s
+
+(* Using recursive modules, we can construct a type t = t list,
+   even without -rectypes: *)
+
+module rec A : sig
+  type t = B.t list
+end = struct
+  type t = B.t list
+end and B : sig
+  type t
+  val eq : (B.t list, t) eqp
+end = struct
+  type t = A.t
+  let eq = Y
+end
+
+(* The expression f B.eq segfaults *)
+</code></pre>
+<div class="footnote-definition" id="haskell"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://ghc.haskell.org/trac/ghc/ticket/8162">https://ghc.haskell.org/trac/ghc/ticket/8162</a> (2013)</p>
+</div>
+<div class="footnote-definition" id="ocaml1"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://github.com/ocaml/ocaml/issues/6993">https://github.com/ocaml/ocaml/issues/6993</a> (2015)</p>
+</div>
+<!-- FIXME:
+ point not well made:
+  distinction between "not provably equal" and "provably distinct"
+    negation-as-failure doesn't cut it under abstraction!
+
+ should this include "Awkward Case 3" from "Injective Type Families for Haskell"?
+-->
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="distinctness-injectivity.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="distinctness-options.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="distinctness-injectivity.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="distinctness-options.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

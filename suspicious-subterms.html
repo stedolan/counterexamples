@@ -1,0 +1,471 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Suspicious subterms - Counterexamples in Type Systems</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        <!-- KaTeX stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+<style>
+pre[data-codetab=hide] { display: none; }
+pre[data-codetab] { margin-top: 0 }
+.error { color: #f00; }
+.codetab-bar button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+.codetab-bar button:hover {
+  background-color: #ddd;
+}
+.codetab-bar button[data-codetab=show] {
+  background-color: #ccc;
+}
+</style>
+
+<script>
+function langName(node) {
+  let lang = node.querySelector('code[class^="language-"]');
+  if (lang) lang = lang.className.match(/language-(\w+)/)[1];
+  lang = lang ? lang : "code";
+  lang = lang.replace(/^\w/, s => s.toUpperCase());
+  lang = {Ocaml:"OCaml","_rust":"Rust","Sml":"Standard ML","Typescript":"TypeScript","Csharp":"C#"}[lang] || lang;
+  return lang;
+}
+function insertCodeTabs() {
+  while (true) {
+    let code = document.querySelector('pre:not([data-codetab])');
+    if (!code) return;
+    let bar = document.createElement("DIV");
+    bar.classList.add('codetab-bar');
+    let tabs = [], buttons = [];
+    while (code && code.nodeName == "PRE") {
+      let button = document.createElement('BUTTON');
+      button.innerHTML = langName(code);
+      tabs.push(code);
+      buttons.push(button);
+      bar.appendChild(button);
+      code = code.nextElementSibling;
+    }
+    tabs[0].parentNode.insertBefore(bar, tabs[0]);
+    let select = function(t,b) {
+      tabs.forEach(t => t.dataset.codetab="hide");
+      buttons.forEach(b => b.dataset.codetab="hide");
+      t.dataset.codetab = "show";
+      b.dataset.codetab = "show";
+    };
+    for (var i = 0; i < tabs.length; i++) {
+      let ix = i;
+      buttons[ix].addEventListener('click', ev => select(tabs[ix], buttons[ix]));
+    }
+    select(tabs[0], buttons[0]);
+  }
+}
+document.addEventListener('DOMContentLoaded', insertCodeTabs);
+</script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 450) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title.html">Counterexamples in Type Systems</a></li><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Index and Glossary</a></li><li class="chapter-item expanded "><a href="polymorphic-references.html"><strong aria-hidden="true">1.</strong> Polymorphic references</a></li><li class="chapter-item expanded "><a href="general-covariance.html"><strong aria-hidden="true">2.</strong> Covariant containers</a></li><li class="chapter-item expanded "><a href="incomplete-variance.html"><strong aria-hidden="true">3.</strong> Incomplete variance checking</a></li><li class="chapter-item expanded "><a href="under-construction.html"><strong aria-hidden="true">4.</strong> Objects under construction</a></li><li class="chapter-item expanded "><a href="currys-paradox.html"><strong aria-hidden="true">5.</strong> Curry's paradox</a></li><li class="chapter-item expanded "><a href="eventually-nothing.html"><strong aria-hidden="true">6.</strong> Eventually, nothing</a></li><li class="chapter-item expanded "><a href="dubious-evidence.html"><strong aria-hidden="true">7.</strong> Dubious evidence</a></li><li class="chapter-item expanded "><a href="anythings.html"><strong aria-hidden="true">8.</strong> Some kinds of Anything</a></li><li class="chapter-item expanded "><a href="anything-once.html"><strong aria-hidden="true">9.</strong> Any (single) thing</a></li><li class="chapter-item expanded "><a href="mutable-matching.html"><strong aria-hidden="true">10.</strong> Mutable matching</a></li><li class="chapter-item expanded "><a href="runtime-misinformation.html"><strong aria-hidden="true">11.</strong> Runtime type misinformation</a></li><li class="chapter-item expanded "><a href="overloading-polymorphism.html"><strong aria-hidden="true">12.</strong> Overloading and polymorphism</a></li><li class="chapter-item expanded "><a href="distinctness-injectivity.html"><strong aria-hidden="true">13.</strong> Distinctness I: Injectivity</a></li><li class="chapter-item expanded "><a href="distinctness-recursion.html"><strong aria-hidden="true">14.</strong> Distinctness II: Recursion</a></li><li class="chapter-item expanded "><a href="distinctness-options.html"><strong aria-hidden="true">15.</strong> Distinctness III: Options</a></li><li class="chapter-item expanded "><a href="subtyping-vs-inheritance.html"><strong aria-hidden="true">16.</strong> Subtyping vs. inheritance</a></li><li class="chapter-item expanded "><a href="selfishness.html"><strong aria-hidden="true">17.</strong> Selfishness</a></li><li class="chapter-item expanded "><a href="privacy-violation.html"><strong aria-hidden="true">18.</strong> Privacy violation</a></li><li class="chapter-item expanded "><a href="unstable-types.html"><strong aria-hidden="true">19.</strong> Unstable type expressions</a></li><li class="chapter-item expanded "><a href="avoidance.html"><strong aria-hidden="true">20.</strong> The avoidance problem</a></li><li class="chapter-item expanded "><a href="little-knowledge.html"><strong aria-hidden="true">21.</strong> A little knowledge...</a></li><li class="chapter-item expanded "><a href="underdetermined-recursion.html"><strong aria-hidden="true">22.</strong> Underdetermined recursion</a></li><li class="chapter-item expanded "><a href="overdetermined-recursion.html"><strong aria-hidden="true">23.</strong> Overdetermined recursion</a></li><li class="chapter-item expanded "><a href="scope-escape.html"><strong aria-hidden="true">24.</strong> Scope escape</a></li><li class="chapter-item expanded "><a href="false-pretenses.html"><strong aria-hidden="true">25.</strong> Under false pretenses</a></li><li class="chapter-item expanded "><a href="suspicious-subterms.html" class="active"><strong aria-hidden="true">26.</strong> Suspicious subterms</a></li><li class="chapter-item expanded "><a href="only-one-leibniz.html"><strong aria-hidden="true">27.</strong> There's only one Leibniz</a></li><li class="chapter-item expanded "><a href="intersecting-references.html"><strong aria-hidden="true">28.</strong> Intersecting references</a></li><li class="chapter-item expanded "><a href="strict-positivity.html"><strong aria-hidden="true">29.</strong> Positivity, strict and otherwise</a></li><li class="chapter-item expanded "><a href="nearly-universal.html"><strong aria-hidden="true">30.</strong> Nearly-universal quantification</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Counterexamples in Type Systems</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/stedolan/counterexamples" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#suspicious-subterms" id="suspicious-subterms">Suspicious subterms</a></h1>
+<p><small><a href="glossary.html#totality">[totality]</a></small></p>
+<p>In <em>total</em> languages, all well-typed expressions terminate and
+infinite loops are impossible. This property is relied upon by proof
+assistants like Coq and Agda: if the result of a subexpression is not
+needed to compute the output of a program, then the subexpression is
+discarded. This is an important optimisation in a proof assistant,
+because large parts of the program are often proofs about other parts
+of the program, and not directly used in computations. However, this
+optimisation means that any source of nontermination immediately
+causes a soundness issue, of the sort described in <a href="eventually-nothing.html">Eventually,
+nothing</a>.</p>
+<p>To remain sound, these languages must check that all recursive
+functions eventually terminate. This is usually done by checking that
+when the function recurses, the argument it passes itself is a
+strictly smaller part of the argument it received, making infinite
+recursion impossible.</p>
+<p>The tricky part of this is the <em>subterm check</em>, which determines
+whether one expression a strictly smaller part (a &quot;subterm&quot;) of
+another. Coq, in particular, has an extensive subterm check, accepting
+as subterms of <code>u</code> not just direct subterms but also:</p>
+<ul>
+<li>
+<p><code>match ... with p1 -&gt; c1 | p2 -&gt; c2 | ... end</code></p>
+<p>if each possible result <code>cN</code> is a subterm of <code>u</code></p>
+</li>
+<li>
+<p><code>fun x =&gt; c</code></p>
+<p>if the result <code>c</code> is a subterm of <code>u</code></p>
+</li>
+</ul>
+<p>This resulted in unsoundness when combined with <em>propositional
+extensionality</em>, an assumption widely used and available in the Coq
+standard library, although not made by default. Propositional
+extensionality states that two propositions which are equivalent are
+also equal: roughly, this states that the only information in a
+proposition carries is whether or not it is true. The details of
+proofs can be discarded, identifying all true propositions with each
+other, and likewise for false ones.</p>
+<p>One particular consequence of this is that <code>False -&gt; False</code> and <code>True</code>
+become equal, as both are true. This led to an unsoundness in Coq<sup class="footnote-reference"><a href="#coq">1</a></sup>:</p>
+<pre><code class="language-coq">(* Counterexample by Maxime Dénès *)
+Require Import ClassicalFacts.
+
+Section func_unit_discr.
+Hypothesis Heq : (False -&gt; False) = True.
+Fixpoint contradiction (u : True) : False :=
+  contradiction (
+    match Heq in (_ = T) return T with
+    | eq_refl =&gt; fun f:False =&gt; match f with end
+    end
+  ).
+End func_unit_discr.
+
+Lemma foo : provable_prop_extensionality -&gt; False.
+Proof.
+  intro; apply contradiction.
+  apply H.
+  trivial.
+  trivial.
+Qed.
+</code></pre>
+<p>The issue is that Coq's subterm check accepted the argument above as a
+subterm of <code>u : True</code>, which should not have any subterms. By Coq's
+definition of &quot;subterm&quot;, the expression <code>match f with end</code> is a
+subterm of <code>u</code> because each of its zero possible results is a subterm
+of <code>u</code>. The fix was to restrict the subterm check in the presence of
+dependent matches, like the outer <code>match</code>.</p>
+<p>Agda's subterm checker has also been confused by dependent matching on
+type equalities, as this counterexample shows<sup class="footnote-reference"><a href="#agda">2</a></sup>:</p>
+<pre><code class="language-agda">-- Andreas Abel, 2014-01-10
+-- Code by Jesper Cockx and Conor McBride and folks from the Coq-club
+
+{-# OPTIONS --without-K #-}
+
+-- An empty type.
+
+data Zero : Set where
+
+-- A unit type as W-type.
+
+mutual
+  data WOne : Set where wrap : FOne -&gt; WOne
+  FOne = Zero -&gt; WOne
+
+-- Type equality.
+
+data _&lt;-&gt;_ (X : Set) : Set -&gt; Set where
+  Refl : X &lt;-&gt; X
+
+-- This postulate is compatible with univalence:
+
+postulate
+  iso : WOne &lt;-&gt; FOne
+
+-- But accepting that is incompatible with univalence:
+
+noo : (X : Set) -&gt; (WOne &lt;-&gt; X) -&gt; X -&gt; Zero
+noo .WOne Refl (wrap f) = noo FOne iso f
+
+-- Matching against Refl silently applies the conversion
+-- FOne -&gt; WOne to f.  But this conversion corresponds
+-- to an application of wrap.  Thus, f, which is really
+-- (wrap f), should not be considered a subterm of (wrap f)
+-- by the termination checker.
+-- At least, if we want to be compatible with univalence.
+
+absurd : Zero
+absurd = noo FOne iso (\ ())
+</code></pre>
+<p>Finally, both Coq and Agda had a related soundness issue using
+coinductive rather than inductive types. Coinductive types contain
+possibly-infinite values, and instead of the subterm check (which
+verifies that recursive functions do not loop infinitely when
+consuming a value) they use the <em>guardedness check</em> (which verifies
+that recursive definitions do not loop infinitely when producing a
+value).</p>
+<p>As above, the guardedness checker was confused by dependent pattern
+matching on type equalities arising from propositional extensionality,
+and permitted definitions that looped unproductively<sup class="footnote-reference"><a href="#cocoq">3</a></sup><sup class="footnote-reference"><a href="#coagda">4</a></sup>:</p>
+<pre><code class="language-coq">(* Counterexample by Maxime Dénès *)
+CoInductive CoFalse : Prop := CF : CoFalse -&gt; False -&gt; CoFalse.
+
+CoInductive Pandora : Prop := C : CoFalse -&gt; Pandora.
+
+Axiom prop_ext : forall P Q : Prop, (P&lt;-&gt;Q) -&gt; P = Q.
+
+Lemma foo : Pandora = CoFalse.
+  apply prop_ext.
+  constructor.
+  intro x; destruct x; assumption.
+  exact C.
+Qed.
+
+CoFixpoint loop : CoFalse :=
+  match foo in (_ = T) return T with eq_refl =&gt; C loop end.
+
+Definition ff : False := match loop with CF _ t =&gt; t end.
+</code></pre>
+<pre><code class="language-agda">-- Counterexample by Andreas Abel
+open import Common.Coinduction
+open import Common.Equality
+
+prop = Set
+
+data False : prop where
+
+data CoFalse : prop where
+  CF : False → CoFalse
+
+data Pandora : prop where
+  C : ∞ CoFalse → Pandora
+
+postulate
+  ext : (CoFalse → Pandora) → (Pandora → CoFalse) → CoFalse ≡ Pandora
+
+out : CoFalse → False
+out (CF f) = f
+
+foo : CoFalse ≡ Pandora
+foo = ext (λ{ (CF ()) }) (λ{ (C c) → CF (out (♭ c))})
+
+loop : CoFalse
+loop rewrite foo = C (♯ loop)
+
+false : False
+false = out loop
+</code></pre>
+<div class="footnote-definition" id="coq"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://sympa.inria.fr/sympa/arc/coq-club/2013-12/msg00119.html">https://sympa.inria.fr/sympa/arc/coq-club/2013-12/msg00119.html</a> (coq-club mailing list), Maxime Dénès (2013)</p>
+</div>
+<div class="footnote-definition" id="agda"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://github.com/agda/agda/issues/1023/">https://github.com/agda/agda/issues/1023/</a> (2015)</p>
+</div>
+<div class="footnote-definition" id="cocoq"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://sympa.inria.fr/sympa/arc/coq-club/2014-02/msg00215.html">https://sympa.inria.fr/sympa/arc/coq-club/2014-02/msg00215.html</a> (coq-club mailing list), Maxime Dénès (2014)</p>
+</div>
+<div class="footnote-definition" id="coagda"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://sympa.inria.fr/sympa/arc/coq-club/2014-03/msg00020.html">https://sympa.inria.fr/sympa/arc/coq-club/2014-03/msg00020.html</a> (coq-club mailing list), Andreas Abel (2014)</p>
+</div>
+<!--
+  FIXME: is this really eventually-nothing?
+   Seems more like the static-type missing gadt value version.
+-->
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="false-pretenses.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="only-one-leibniz.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="false-pretenses.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="only-one-leibniz.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction - Counterexamples in Type Systems</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        <!-- KaTeX stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+<style>
+pre[data-codetab=hide] { display: none; }
+pre[data-codetab] { margin-top: 0 }
+.error { color: #f00; }
+.codetab-bar button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+.codetab-bar button:hover {
+  background-color: #ddd;
+}
+.codetab-bar button[data-codetab=show] {
+  background-color: #ccc;
+}
+</style>
+
+<script>
+function langName(node) {
+  let lang = node.querySelector('code[class^="language-"]');
+  if (lang) lang = lang.className.match(/language-(\w+)/)[1];
+  lang = lang ? lang : "code";
+  lang = lang.replace(/^\w/, s => s.toUpperCase());
+  lang = {Ocaml:"OCaml","_rust":"Rust","Sml":"Standard ML","Typescript":"TypeScript","Csharp":"C#"}[lang] || lang;
+  return lang;
+}
+function insertCodeTabs() {
+  while (true) {
+    let code = document.querySelector('pre:not([data-codetab])');
+    if (!code) return;
+    let bar = document.createElement("DIV");
+    bar.classList.add('codetab-bar');
+    let tabs = [], buttons = [];
+    while (code && code.nodeName == "PRE") {
+      let button = document.createElement('BUTTON');
+      button.innerHTML = langName(code);
+      tabs.push(code);
+      buttons.push(button);
+      bar.appendChild(button);
+      code = code.nextElementSibling;
+    }
+    tabs[0].parentNode.insertBefore(bar, tabs[0]);
+    let select = function(t,b) {
+      tabs.forEach(t => t.dataset.codetab="hide");
+      buttons.forEach(b => b.dataset.codetab="hide");
+      t.dataset.codetab = "show";
+      b.dataset.codetab = "show";
+    };
+    for (var i = 0; i < tabs.length; i++) {
+      let ix = i;
+      buttons[ix].addEventListener('click', ev => select(tabs[ix], buttons[ix]));
+    }
+    select(tabs[0], buttons[0]);
+  }
+}
+document.addEventListener('DOMContentLoaded', insertCodeTabs);
+</script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 450) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title.html">Counterexamples in Type Systems</a></li><li class="chapter-item expanded affix "><a href="intro.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Index and Glossary</a></li><li class="chapter-item expanded "><a href="polymorphic-references.html"><strong aria-hidden="true">1.</strong> Polymorphic references</a></li><li class="chapter-item expanded "><a href="general-covariance.html"><strong aria-hidden="true">2.</strong> Covariant containers</a></li><li class="chapter-item expanded "><a href="incomplete-variance.html"><strong aria-hidden="true">3.</strong> Incomplete variance checking</a></li><li class="chapter-item expanded "><a href="under-construction.html"><strong aria-hidden="true">4.</strong> Objects under construction</a></li><li class="chapter-item expanded "><a href="currys-paradox.html"><strong aria-hidden="true">5.</strong> Curry's paradox</a></li><li class="chapter-item expanded "><a href="eventually-nothing.html"><strong aria-hidden="true">6.</strong> Eventually, nothing</a></li><li class="chapter-item expanded "><a href="dubious-evidence.html"><strong aria-hidden="true">7.</strong> Dubious evidence</a></li><li class="chapter-item expanded "><a href="anythings.html"><strong aria-hidden="true">8.</strong> Some kinds of Anything</a></li><li class="chapter-item expanded "><a href="anything-once.html"><strong aria-hidden="true">9.</strong> Any (single) thing</a></li><li class="chapter-item expanded "><a href="mutable-matching.html"><strong aria-hidden="true">10.</strong> Mutable matching</a></li><li class="chapter-item expanded "><a href="runtime-misinformation.html"><strong aria-hidden="true">11.</strong> Runtime type misinformation</a></li><li class="chapter-item expanded "><a href="overloading-polymorphism.html"><strong aria-hidden="true">12.</strong> Overloading and polymorphism</a></li><li class="chapter-item expanded "><a href="distinctness-injectivity.html"><strong aria-hidden="true">13.</strong> Distinctness I: Injectivity</a></li><li class="chapter-item expanded "><a href="distinctness-recursion.html"><strong aria-hidden="true">14.</strong> Distinctness II: Recursion</a></li><li class="chapter-item expanded "><a href="distinctness-options.html"><strong aria-hidden="true">15.</strong> Distinctness III: Options</a></li><li class="chapter-item expanded "><a href="subtyping-vs-inheritance.html"><strong aria-hidden="true">16.</strong> Subtyping vs. inheritance</a></li><li class="chapter-item expanded "><a href="selfishness.html"><strong aria-hidden="true">17.</strong> Selfishness</a></li><li class="chapter-item expanded "><a href="privacy-violation.html"><strong aria-hidden="true">18.</strong> Privacy violation</a></li><li class="chapter-item expanded "><a href="unstable-types.html"><strong aria-hidden="true">19.</strong> Unstable type expressions</a></li><li class="chapter-item expanded "><a href="avoidance.html"><strong aria-hidden="true">20.</strong> The avoidance problem</a></li><li class="chapter-item expanded "><a href="little-knowledge.html"><strong aria-hidden="true">21.</strong> A little knowledge...</a></li><li class="chapter-item expanded "><a href="underdetermined-recursion.html"><strong aria-hidden="true">22.</strong> Underdetermined recursion</a></li><li class="chapter-item expanded "><a href="overdetermined-recursion.html"><strong aria-hidden="true">23.</strong> Overdetermined recursion</a></li><li class="chapter-item expanded "><a href="scope-escape.html"><strong aria-hidden="true">24.</strong> Scope escape</a></li><li class="chapter-item expanded "><a href="false-pretenses.html"><strong aria-hidden="true">25.</strong> Under false pretenses</a></li><li class="chapter-item expanded "><a href="suspicious-subterms.html"><strong aria-hidden="true">26.</strong> Suspicious subterms</a></li><li class="chapter-item expanded "><a href="only-one-leibniz.html"><strong aria-hidden="true">27.</strong> There's only one Leibniz</a></li><li class="chapter-item expanded "><a href="intersecting-references.html"><strong aria-hidden="true">28.</strong> Intersecting references</a></li><li class="chapter-item expanded "><a href="strict-positivity.html"><strong aria-hidden="true">29.</strong> Positivity, strict and otherwise</a></li><li class="chapter-item expanded "><a href="nearly-universal.html"><strong aria-hidden="true">30.</strong> Nearly-universal quantification</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Counterexamples in Type Systems</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/stedolan/counterexamples" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<p>Welcome to <em>Counterexamples in Type Systems</em>, a compendium of horrible
+programs that crash, segfault or otherwise explode.</p>
+<p>The &quot;counterexamples&quot; here are programs that go wrong in ways that
+should be impossible: corrupt memory in Rust, produce
+<code>ClassCastException</code> in cast-free Java, segfault in Haskell, and so
+on. This book is a collection of such counterexamples, each with some
+explanation of what went wrong and references to the languages or
+systems in which the problem occurred.</p>
+<p>It's intended as a resource for researchers, designers and
+implementors of static type systems, as well as programmers interested
+in how type systems fit together (or don't).</p>
+<h2><a class="header" href="#type-systems" id="type-systems">Type systems</a></h2>
+<p>For the purposes of this book, a &quot;type system&quot; is a system that does
+local checks of a program's source code, in order to establish some
+global property about the program's behaviour. The local checks
+usually assign a type to each variable and verify that they are used
+only in contexts appropriate to their type, while the global property
+varies but is generally some sort of safety property: the absence of
+memory corruption, use-after-free errors, and the like.</p>
+<p>This is intentionally a fairly narrow definition. Some examples of
+things that are not &quot;type systems&quot;:</p>
+<ul>
+<li>
+<p><strong>Linters</strong>: Linters do local checks of a programs's source code,
+but don't try to establish any global property. Just because a
+program passes a linter's checks does not imply anything definite
+about its behaviour.</p>
+</li>
+<li>
+<p><strong>Python's type system</strong>: Dynamic languages like Python do local
+type checks to establish global safety properties. However, the
+type checks are not done purely on the program's source code
+before running it, but examine the actual runtime inputs as well.</p>
+</li>
+<li>
+<p><strong>C++'s type system</strong>: C++ (among other unsafe languages) has a
+type system that does many local checks of a programs's source
+code. However, passing these checks does not establish anything
+definite about a program's behaviour: many C++ programs pass all
+of the compiler's type checking, and yet exhibit use-after-free
+errors, memory corruption, and arbitrary behaviour when run.</p>
+</li>
+<li>
+<p><strong>Some program analysis tools</strong>: Some static program analysis
+tools do only global checks (requiring the whole program's source
+code to be available at once), while others detect certain issues
+but do not attempt to establish any global property when no issues
+are found. Still others do fit the definition of &quot;type system&quot;,
+though: the line here is blurry.</p>
+</li>
+</ul>
+<p>This is not to say that there's something wrong with the above tools,
+but they're not what this book is about. Some examples of things that
+do fit the definition are the type systems of languages like Java,
+Haskell and Rust.</p>
+<h2><a class="header" href="#soundness-and-counterexamples" id="soundness-and-counterexamples">Soundness and counterexamples</a></h2>
+<p>Type systems make the claim that any program that passes the local
+type checks will definitely have the global safety properties. A type
+system is <em>sound</em> if this claim is true, and to say that a system is
+<em>unsound</em> is to say that there exists some program which passes all
+type checks, and yet whose behaviour violates the global safety
+properties (corrupts memory, crashes unexpectedly, etc.). A
+<em>counterexample</em> is such a program, exhibiting a <em>soundness bug</em>.</p>
+<p>Different languages enforce different properties, so exactly what
+&quot;soundness&quot; means varies somewhat. For instance, a global property
+established by the Coq type system is that all programs halt. So, a
+program that looped infinitely would be a counterexample in Coq, but
+not in Java, which makes no such claim.</p>
+<p>The goal of this book is to collect such counterexamples, especially
+those that crop up in similar forms across multiple languages. These
+fall into a couple of broad categories:</p>
+<ul>
+<li>
+<p><strong>Missing checks</strong>: The simplest sort of soundness bug is when some
+important type check is missing from the type checker. Usually,
+these are straightforward bugs, easily fixed once discovered,
+highly specific to a particular compiler, and not very interesting.
+However, certain missing checks are common mistakes that keep
+coming up across many different type checkers and languages, and a
+few of these are included here: for instance, missing <a href="incomplete-variance.html">variance
+checks</a> or <a href="scope-escape.html">scope checks</a>.</p>
+</li>
+<li>
+<p><strong>Feature interactions</strong>: Often, two type system features which are
+perfectly sound when used in isolation have some tricky
+interaction when used together. Examples of this include mixtures
+of <a href="polymorphic-references.html">polymorphism and mutability</a> or
+<a href="overloading-polymorphism.html">polymorphism and overloading</a> or
+<a href="intersecting-references.html">intersections and mutability</a>.</p>
+</li>
+<li>
+<p><strong>Subtle differences</strong>: If two parts of a type system use different
+but similar versions of the same concept, the gap between them can
+often cause soundness bugs. For instance, does &quot;private&quot; mean
+<a href="privacy-violation.html">private to an object or private to a class</a>?
+Does &quot;unequal&quot; mean <a href="distinctness-injectivity.html">&quot;not provably equal&quot; or &quot;provably
+distinct&quot;</a>?</p>
+</li>
+</ul>
+<h2><a class="header" href="#organisation-or-lack-thereof" id="organisation-or-lack-thereof">Organisation (or lack thereof)</a></h2>
+<p>Since so many of the counterexamples here depend on interactions
+between disparate parts of a complex type system, it would be tricky
+to separate them all into distinct coherent topics, and no attempt to
+do so has been made.</p>
+<p>Instead, each entry is tagged with the type system features involved,
+and in lieu of a table of contents there is an <a href="glossary.html">index and
+glossary</a> listing the features and the counterexamples in
+which they appear.</p>
+<p>The entries themselves are mostly independent, and it should be
+possible to read them in any order. However, a few of them do refer to
+previous entries, and some attempt was made to put the simpler entries
+earlier, so if you do intend to read the whole thing then going start
+to finish is best.</p>
+<h2><a class="header" href="#a-note-on-sources" id="a-note-on-sources">A note on sources</a></h2>
+<p>While much type system research appears in formal academic
+publications, it is relatively rare (but not unheard of!) to publish a
+paper about an unsound system.</p>
+<p>So, as well as academic papers, many of the counterexamples here are
+drawn from unpublished notes, the archives of the
+<a href="https://lists.seas.upenn.edu/mailman/listinfo/types-list">TYPES</a>
+forum, blogs by programming language researchers, designers and
+implementors, and language-specific bugtrackers, forums and mailing
+lists.  A major reason for the existence of this book is to collect
+these various sources together.</p>
+<p>In particular, compiler bugtrackers are a major source of the
+counterexamples reproduced here. Try not to read too much into how
+often different bugtrackers show up: while it is tempting to assume
+that the more often a compiler appears, the buggier it is, this would
+be wrong for several reasons:</p>
+<ul>
+<li>
+<p>the author works professionally on OCaml, so it is somewhat
+over-represented due to familiarity,</p>
+</li>
+<li>
+<p>the same applies to other languages that the author likes or at
+least vaguely understand,s and</p>
+</li>
+<li>
+<p>languages whose community does a good job of publicly tracking,
+explaining, and writing up issues that arise are also
+over-represented.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="title.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="title.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

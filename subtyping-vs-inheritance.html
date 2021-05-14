@@ -1,0 +1,477 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Subtyping vs. inheritance - Counterexamples in Type Systems</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        <!-- KaTeX stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+<style>
+pre[data-codetab=hide] { display: none; }
+pre[data-codetab] { margin-top: 0 }
+.error { color: #f00; }
+.codetab-bar button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+.codetab-bar button:hover {
+  background-color: #ddd;
+}
+.codetab-bar button[data-codetab=show] {
+  background-color: #ccc;
+}
+</style>
+
+<script>
+function langName(node) {
+  let lang = node.querySelector('code[class^="language-"]');
+  if (lang) lang = lang.className.match(/language-(\w+)/)[1];
+  lang = lang ? lang : "code";
+  lang = lang.replace(/^\w/, s => s.toUpperCase());
+  lang = {Ocaml:"OCaml","_rust":"Rust","Sml":"Standard ML","Typescript":"TypeScript","Csharp":"C#"}[lang] || lang;
+  return lang;
+}
+function insertCodeTabs() {
+  while (true) {
+    let code = document.querySelector('pre:not([data-codetab])');
+    if (!code) return;
+    let bar = document.createElement("DIV");
+    bar.classList.add('codetab-bar');
+    let tabs = [], buttons = [];
+    while (code && code.nodeName == "PRE") {
+      let button = document.createElement('BUTTON');
+      button.innerHTML = langName(code);
+      tabs.push(code);
+      buttons.push(button);
+      bar.appendChild(button);
+      code = code.nextElementSibling;
+    }
+    tabs[0].parentNode.insertBefore(bar, tabs[0]);
+    let select = function(t,b) {
+      tabs.forEach(t => t.dataset.codetab="hide");
+      buttons.forEach(b => b.dataset.codetab="hide");
+      t.dataset.codetab = "show";
+      b.dataset.codetab = "show";
+    };
+    for (var i = 0; i < tabs.length; i++) {
+      let ix = i;
+      buttons[ix].addEventListener('click', ev => select(tabs[ix], buttons[ix]));
+    }
+    select(tabs[0], buttons[0]);
+  }
+}
+document.addEventListener('DOMContentLoaded', insertCodeTabs);
+</script>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 450) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title.html">Counterexamples in Type Systems</a></li><li class="chapter-item expanded affix "><a href="intro.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="glossary.html">Index and Glossary</a></li><li class="chapter-item expanded "><a href="polymorphic-references.html"><strong aria-hidden="true">1.</strong> Polymorphic references</a></li><li class="chapter-item expanded "><a href="general-covariance.html"><strong aria-hidden="true">2.</strong> Covariant containers</a></li><li class="chapter-item expanded "><a href="incomplete-variance.html"><strong aria-hidden="true">3.</strong> Incomplete variance checking</a></li><li class="chapter-item expanded "><a href="under-construction.html"><strong aria-hidden="true">4.</strong> Objects under construction</a></li><li class="chapter-item expanded "><a href="currys-paradox.html"><strong aria-hidden="true">5.</strong> Curry's paradox</a></li><li class="chapter-item expanded "><a href="eventually-nothing.html"><strong aria-hidden="true">6.</strong> Eventually, nothing</a></li><li class="chapter-item expanded "><a href="dubious-evidence.html"><strong aria-hidden="true">7.</strong> Dubious evidence</a></li><li class="chapter-item expanded "><a href="anythings.html"><strong aria-hidden="true">8.</strong> Some kinds of Anything</a></li><li class="chapter-item expanded "><a href="anything-once.html"><strong aria-hidden="true">9.</strong> Any (single) thing</a></li><li class="chapter-item expanded "><a href="mutable-matching.html"><strong aria-hidden="true">10.</strong> Mutable matching</a></li><li class="chapter-item expanded "><a href="runtime-misinformation.html"><strong aria-hidden="true">11.</strong> Runtime type misinformation</a></li><li class="chapter-item expanded "><a href="overloading-polymorphism.html"><strong aria-hidden="true">12.</strong> Overloading and polymorphism</a></li><li class="chapter-item expanded "><a href="distinctness-injectivity.html"><strong aria-hidden="true">13.</strong> Distinctness I: Injectivity</a></li><li class="chapter-item expanded "><a href="distinctness-recursion.html"><strong aria-hidden="true">14.</strong> Distinctness II: Recursion</a></li><li class="chapter-item expanded "><a href="distinctness-options.html"><strong aria-hidden="true">15.</strong> Distinctness III: Options</a></li><li class="chapter-item expanded "><a href="subtyping-vs-inheritance.html" class="active"><strong aria-hidden="true">16.</strong> Subtyping vs. inheritance</a></li><li class="chapter-item expanded "><a href="selfishness.html"><strong aria-hidden="true">17.</strong> Selfishness</a></li><li class="chapter-item expanded "><a href="privacy-violation.html"><strong aria-hidden="true">18.</strong> Privacy violation</a></li><li class="chapter-item expanded "><a href="unstable-types.html"><strong aria-hidden="true">19.</strong> Unstable type expressions</a></li><li class="chapter-item expanded "><a href="avoidance.html"><strong aria-hidden="true">20.</strong> The avoidance problem</a></li><li class="chapter-item expanded "><a href="little-knowledge.html"><strong aria-hidden="true">21.</strong> A little knowledge...</a></li><li class="chapter-item expanded "><a href="underdetermined-recursion.html"><strong aria-hidden="true">22.</strong> Underdetermined recursion</a></li><li class="chapter-item expanded "><a href="overdetermined-recursion.html"><strong aria-hidden="true">23.</strong> Overdetermined recursion</a></li><li class="chapter-item expanded "><a href="scope-escape.html"><strong aria-hidden="true">24.</strong> Scope escape</a></li><li class="chapter-item expanded "><a href="false-pretenses.html"><strong aria-hidden="true">25.</strong> Under false pretenses</a></li><li class="chapter-item expanded "><a href="suspicious-subterms.html"><strong aria-hidden="true">26.</strong> Suspicious subterms</a></li><li class="chapter-item expanded "><a href="only-one-leibniz.html"><strong aria-hidden="true">27.</strong> There's only one Leibniz</a></li><li class="chapter-item expanded "><a href="intersecting-references.html"><strong aria-hidden="true">28.</strong> Intersecting references</a></li><li class="chapter-item expanded "><a href="strict-positivity.html"><strong aria-hidden="true">29.</strong> Positivity, strict and otherwise</a></li><li class="chapter-item expanded "><a href="nearly-universal.html"><strong aria-hidden="true">30.</strong> Nearly-universal quantification</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Counterexamples in Type Systems</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/stedolan/counterexamples" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#subtyping-vs-inheritance" id="subtyping-vs-inheritance">Subtyping vs. inheritance</a></h1>
+<p><small><a href="glossary.html#subtyping">[subtyping]</a></small></p>
+<p>In an object-oriented language, after writing a class <code>A</code> there are
+two different ways we might want to extend it:</p>
+<ul>
+<li>
+<p><strong>Subtyping</strong> means writing a class <code>B</code> which conforms to <code>A</code>'s
+interface, as well as possibly adding some new methods of its
+own. Per Liskov's substitution principle<sup class="footnote-reference"><a href="#liskov">1</a></sup>, in any
+context where an <code>A</code> is expected we can supply a <code>B</code> instead.</p>
+</li>
+<li>
+<p><strong>Inheritance</strong> means writing a class <code>B</code> that specialises <code>A</code> to
+a particular use, by reusing some of its behaviour and perhaps
+overriding parts.</p>
+</li>
+</ul>
+<p>The two are similar: if the class <code>B</code> reuses all of <code>A</code>'s
+functionality and adds some new methods of its own, then <code>B</code> will both
+inherit from and be a subtype of <code>A</code>.</p>
+<p>However, they are not the same. Suppose <code>B</code> inherits most of its
+behaviour from <code>A</code>, but overrides a single method <code>m</code>. If <code>B</code> is a
+specialised version of <code>A</code>, its <code>m</code> might require a specialised input,
+accepting only a specialised version of <code>A.m</code>'s input. On the other
+hand, if <code>B</code> is a subtype of <code>A</code>, then in order to conform <code>A</code>'s
+interface its <code>m</code> must accept <em>all</em> inputs that <code>A.m</code> accepts,
+requiring the input of <code>B.m</code> to be a <em>supertype</em> of that of <code>A.m</code>.</p>
+<p>Many object-oriented languages conflate inheritance and subtyping as
+<em>subclassing</em>. Three representative examples are C#, Eiffel and
+TypeScript, which differ in how overriden methods in a subclass are
+typechecked.</p>
+<p>C# insists that subclasses' methods accept exactly the same types
+the overriden method accepts, which is sound but makes some uses of
+subtyping and specialisation awkward. Eiffel prefers specialisation,
+insisting that subclasses' methods accept subtypes of what the
+overriden method accepts, which is unsound<sup class="footnote-reference"><a href="#cook">2</a></sup>. TypeScript is ambivalent,
+requiring only that subclasses' methods accept either a supertype <em>or</em> a
+subtype of what the overriden method accepts, which is also unsound.</p>
+<p>The soundness issue is the same one in both TypeScript and Eiffel:
+Suppose a method <code>A.m</code> may be overriden by <code>B.m</code>, where <code>B.m</code> accepts
+only a subtype of the original type. Since <code>B</code> is deemed a subtype of
+<code>A</code>, a <code>B</code> can be used as though it were an <code>A</code>, and by invoking its
+<code>B.m</code> method through <code>A</code> an argument which is not of the subtype it
+expects can be supplied.</p>
+<pre><code class="language-typescript">interface Base {
+    name: string;
+}
+interface Sub {
+    name: string;
+    doStuff: () =&gt; number;
+}
+
+class A {
+    go(_ : Base) {}
+}
+class B extends A {
+    go(x : Sub) { x.doStuff(); }
+}
+
+let x : Base = { name: &quot;x&quot; };
+let b = new B();
+let a : A = b;
+a.go(x); // crashes
+</code></pre>
+<pre><code class="language-eiffel">-- Counterexample by W. R. Cook
+class Base feature
+  base (n : Integer) : Integer
+    do Result := n * 2 end;
+end
+---
+class Extra inherit Base feature
+  extra (n : Integer) : Integer
+    do Result := n * n end;
+end
+---
+class P2 feature
+  get (arg : Base) : Integer
+    do Result := arg.base(1) end
+end
+---
+class C2 inherit P2 redefine get end feature
+  get (arg : Extra) : Integer
+    do Result := arg.extra(2) end
+end
+---
+  local
+    a : Base
+    v : P2
+    b : C2
+    i : Integer
+  do
+    create a;
+    create b;
+    v := b;
+    i := v.get(a) -- crashes!
+  end
+</code></pre>
+<pre><code class="language-ocaml">class type base = object
+  method name : string 
+end
+class type sub = object
+  method name : string
+  method do_stuff : int
+end
+
+class a = object
+  method go (_ : base) = ()
+end
+
+class b = object (self : &lt; go : sub -&gt; int; .. &gt;)
+  (* does not compile *)
+  inherit a
+  method! go (x : sub) = x#doStuff
+end
+</code></pre>
+<pre><code class="language-csharp">class A {
+  public void go(Object arg) {}
+}
+class B : A {
+  // does not compile
+  public override void go(String arg) {}
+}
+</code></pre>
+<p>Since version 2.6, TypeScript supports the <code>strictFunctionTypes</code>
+option<sup class="footnote-reference"><a href="#typescriptStrict">3</a></sup>, which uses a stricter subtyping check in
+some cases. However, the counterexample above is still accepted with
+<code>strictFunctionTypes</code>.</p>
+<p>Theoretically, Eiffel recovers soundness by the &quot;system validity
+check&quot;, a whole-program dataflow analysis designed to detect
+situations like Cook's counterexaxmple (which the Eiffel community
+terms &quot;catcalls&quot;, for &quot;Changed Availability or Type&quot;). However, this
+check is quite tricky, and it appears that no Eiffel compilers have
+ever actually implemented it<sup class="footnote-reference"><a href="#cats">4</a></sup>.</p>
+<p>The same issue can crop up with <em>class methods</em>, which are methods
+that are associated with a class rather than with an instance of that
+class. Languages with class methods allow classes to be passed around
+as values, dispatching method calls to the appropriate class as
+determined at runtime.</p>
+<p>When class methods can be overridden in a subclass, this raises the
+same subtyping vs. inheritance issue: may the subclass specialise its
+argument type, or must it accept a supertype? A soundness issue along
+these lines (analagous to the one above) arose in Swift<sup class="footnote-reference"><a href="#swift">5</a></sup>:</p>
+<pre><code class="language-swift">// Counterexample by Ben Pious
+class C&lt;T&gt; {
+    
+    let t: T
+    
+    init(t: T) {
+        self.t = t
+        type(of: self).f()(self)
+    }
+    
+    class func f&lt;U&gt;() -&gt; (U) -&gt; () where U: C  {
+        return { (u: U) in
+            print(u.t)
+        }
+    }
+}
+
+class E {
+    let g = &quot;Expected to Print&quot;
+}
+
+class D: C&lt;E&gt; {
+    override class func f&lt;U&gt;() -&gt; (U) -&gt; () where U: E {
+        return { (u: E) in
+            print(u.g)
+        }
+    }
+}
+
+let d = D(t: E()) // prints random garbage
+</code></pre>
+<div class="footnote-definition" id="liskov"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://dl.acm.org/doi/10.1145/197320.197383">A behavioral notion of subtyping</a>,
+Barbara Liskov and Jeannette Wing (1994)</p>
+</div>
+<div class="footnote-definition" id="cook"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://academic.oup.com/comjnl/article/32/4/305/377555">A Proposal for Making Eiffel Type-safe</a>, W. R. Cook (1989)</p>
+</div>
+<div class="footnote-definition" id="typescriptStrict"><sup class="footnote-definition-label">3</sup>
+<p><a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html">https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html</a> (2017)</p>
+</div>
+<div class="footnote-definition" id="cats"><sup class="footnote-definition-label">4</sup>
+<p><a href="http://se.inf.ethz.ch/old/projects/markus_keller/diplom">Catching CATs</a>, Markus Keller (2003)</p>
+</div>
+<div class="footnote-definition" id="swift"><sup class="footnote-definition-label">5</sup>
+<p><a href="https://bugs.swift.org/browse/SR-7573">https://bugs.swift.org/browse/SR-7573</a> (2018)</p>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="distinctness-options.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="selfishness.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="distinctness-options.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="selfishness.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
