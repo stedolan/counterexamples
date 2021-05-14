@@ -3,8 +3,6 @@
 [Counterexamples in Type Systems](title.md)
 [Introduction](intro.md)
 
-<!-- These need sorting -->
-
 [Index and Glossary](glossary.md)
 
 
@@ -22,44 +20,47 @@
   - [Some kinds of Anything](anythings.md)
   - [Any (single) thing](anything-once.md)
 
-  - [The avoidance problem](avoidance.md)
+
+
 
   - [Mutable matching](mutable-matching.md)
 
   - [Runtime type misinformation](runtime-misinformation.md)
 
-  - [Distinctness I: Injectivity](distinctness-injectivity.md)
-  - [Distinctness II: Recursion](distinctness-recursion.md)
-  <!-- FIXME: distinctness-options.md -->
-
   - [Overloading and polymorphism](overloading-polymorphism.md)
 
-  - [Side-effects in types](side-effect-types.md)
+  - [Distinctness I: Injectivity](distinctness-injectivity.md)
+  - [Distinctness II: Recursion](distinctness-recursion.md)
+  - [Distinctness III: Options](distinctness-options.md)
+
 
   - [Subtyping vs. inheritance](subtyping-vs-inheritance.md)
-
   - [Selfishness](selfishness.md)
-
-  - [Suspicious subterms](suspicious-subterms.md)
-
   - [Privacy violation](privacy-violation.md)
 
-  - [Underdetermined recursion](underdetermined-recursion.md)
 
-  - [Overdetermined recursion](overdetermined-recursion.md)
 
+  - [Unstable type expressions](unstable-types.md)
+
+  - [The avoidance problem](avoidance.md)
   - [A little knowledge...](little-knowledge.md)
 
-  - [There's only one Leibniz](only-one-leibniz.md)
-
-  - [Large injections](large-injections.md)
-
-  - [Intersecting references](intersecting-references.md)
-
-  - [Positivity, strict and otherwise](strict-positivity.md)
+  - [Underdetermined recursion](underdetermined-recursion.md)
+  - [Overdetermined recursion](overdetermined-recursion.md)
 
   - [Scope escape](scope-escape.md)
 
   - [Under false pretenses](false-pretenses.md)
 
+  - [Suspicious subterms](suspicious-subterms.md)
+
+  - [There's only one Leibniz](only-one-leibniz.md)
+
+
+  - [Intersecting references](intersecting-references.md)
+
+  - [Positivity, strict and otherwise](strict-positivity.md)
+
   - [Nearly-universal quantification](nearly-universal.md)
+
+  <!-- FIXME - [Lawvere's theorem](lawvere.md) -->

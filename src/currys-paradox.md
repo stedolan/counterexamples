@@ -1,6 +1,6 @@
 # Curry's paradox
 
-TAGS: recursive-types
+TAGS: recursive-types, totality
 
 In the simply-typed lambda calculus (which has only function types and
 a base type), infinite loops are impossible and all programs halt.

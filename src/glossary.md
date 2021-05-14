@@ -59,9 +59,9 @@ for the type system).
 
 ### Scoping
 
-*Scoped* types are types defined locally to a module, function or
-block, which the the compiler must check do not accidentally leak out
-of their scoped region.
+When types are types defined locally to a module, function or
+block, the compiler must check do not accidentally leak out
+of their scope.
 
 [#scoping]
 
@@ -113,3 +113,16 @@ in fact be implemented directly as another type, but this fact is not
 exposed.
 
 [#abstract-types]
+
+### Impredicativity
+
+A type system is *predicative* if definitions can never be referred
+to, even indirectly,   before they are defined. In particular,
+polymorphic types $∀α. \dots$ are predicative only if $α$ ranges over
+types not including the polymorphic type being defined. Predicative
+systems usually have restricted polymorphism (in $∀α. \dots$, $α$ may
+range only over types that do not themselves use $∀$, or there may be
+a system of stratified levels of $∀$-usage). One hallmark of
+impredicative systems is unrestricted $∀$ (present in e.g. System F)
+
+[#impredicativity]

@@ -1,3 +1,3 @@
 # Counterexamples in Type Systems
 
-<!-- FIXME what goes here? -->
+*collated by Stephen Dolan, with thanks to Andrej Bauer, Leo White and Jeremy Yallop*

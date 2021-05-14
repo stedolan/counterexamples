@@ -1,13 +1,22 @@
-# Side-effects in types
+# Unstable type expressions
 
 TAGS: mutation
 
 Types can be passed around as first-class values in several languages,
-either alone or as part of another structure (e.g. first-class modules
-in OCaml, abstract type members in Scala). If the language also allows
-side-effects, then it is possible to have an expression $T$ that
-yields a type, where $T ≠ T$, because $T$ yields two different types
-when evaluated twice.
+either directly (particularly in languages with dependent types and
+universes) or as part of another structure (e.g. first-class modules
+in OCaml, abstract type members in Scala).
+
+This means that it is possible to have a type expression $T$ that
+depends on a value: if some boolean $b$ is false, then $T = \n{Int}$,
+but if it's true then $T = \n{String}$. In languages with mutation,
+there can even be a type expression $T$ where $T ≠ T$, because $T$
+yields two different types when evaluated twice.
+
+The risk is that if the type system does not perfectly track
+dependency of types on values, or the presence of side-effects in type
+expressions, then you may end up with two incompatible values both
+claiming to be of type $T$.
 
 The problem was noticed by Russo[^russo], in his thesis introducing
 first-class modules to Standard ML, where he gave a counterexample
@@ -82,8 +91,8 @@ There are two standard fixes:
   - **Syntactically restrict expressions appearing in types**
 
     The syntax of type expressions can be limited to constructions
-    that cannot possibly contain any mutation. See _paths_ in ML-family
-    languages and _stable identifiers_ in Scala.
+    whose value cannot change. See _paths_ in ML-family languages and
+    _stable identifiers_ in Scala.
 
     This can lead to some surprises, because valid syntax then depends
     on context. For instance, in OCaml, anonymous module parameters

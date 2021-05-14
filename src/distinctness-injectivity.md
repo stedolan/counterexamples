@@ -7,7 +7,7 @@ are equal, or at least compatible, checking for instance that the type
 of the argument to a function matches the type it expects.
 
 Occasionally, they need to do the opposite, and verify that two types
-are distinct. The most common case of this is allowing the programmer
+are distinct. One common case of this is allowing the programmer
 to omit those cases of a pattern match which are impossible
 because they would imply that two distinct types are equal. For
 instance, given a value which is either a string, or evidence that

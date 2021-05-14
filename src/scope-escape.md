@@ -116,6 +116,12 @@ object Test {
 }
 ```
 
+Scope escape bugs are notably absent from Idris 2[^idris2], a self-hosting
+dependently-typed language whose compiler encodes scoping in the types
+it uses to manipulate programs, so that the compiler successfully
+builds only if it does not have any scope escape errors.
+
+
 [^haskell]: <https://gitlab.haskell.org/ghc/ghc/-/issues/7194> (2012)
 
 [^ocaml]: <https://github.com/ocaml/ocaml/issues/6744> (2015)
@@ -123,3 +129,5 @@ object Test {
 [^rust]: <https://github.com/rust-lang/rust/issues/58451> (2019)
 
 [^scala]: <https://github.com/scala/bug/issues/7084> (2013)
+
+[^idris2]: <https://idris2.readthedocs.io/en/latest/implementation/overview.html> (2020)

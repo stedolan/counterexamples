@@ -6,9 +6,9 @@ TAGS: recursive-types
 counterexample](distinctness-injectivity.md), so read that first for
 context.)
 
-When checking distinctness of two types that contain type variables, a
-straightforward approach is to attempt to unify them and see whether
-there is a common unifier. (Be careful! It is easy to [assume
+When checking distinctness of two types that contain type variables,
+one approach is to attempt to unify them and see whether there is a
+common unifier. (Be careful! It is easy to [assume
 injectivity](distinctness-injectivity.md) this way).
 
 Unification can fail because of the _occurs check_, under which a type
@@ -117,7 +117,9 @@ end
 
 
 <!-- FIXME:
- two points not well made:
+ point not well made:
   distinction between "not provably equal" and "provably distinct"
     negation-as-failure doesn't cut it under abstraction!
+
+ should this include "Awkward Case 3" from "Injective Type Families for Haskell"?
 -->

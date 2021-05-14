@@ -38,6 +38,8 @@ from skipping such checks:
         val i = new y.Inner(1)
         val s: String = x.getY
         println(s)
+        // Exception in thread "main" java.lang.ClassCastException:
+        // java.lang.Integer cannot be cast to java.lang.String
       }
     }
     ```
@@ -100,8 +102,8 @@ from skipping such checks:
     they can be soundly combined.
 
   - **Self types** allow a class to refer recursively to the type of
-    `this` (which may be a subtype of the class being
-    defined). However, if the class has type parameters, any use of a
+    `this`, which may be a subtype of the class being
+    defined. However, if the class has type parameters, any use of a
     self type must count as a use of those parameters. Failure to do
     so led to a soundness issue in Hack[^hack-self]:
     ```hack

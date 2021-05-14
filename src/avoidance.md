@@ -5,7 +5,8 @@ TAGS: scoping, subtyping
 A type system which infers types can occasionally find itself having
 inferred a type that refers to something (a type, module, etc.) which
 is about to go out of scope. Referring to things which are no longer
-in scope is ill-formed, and doing it generally leads to unsoundness.
+in scope is ill-formed, and doing it generally leads to unsoundness
+(see [Scope escape](scope-escape.md)).
 
 So, the type system must approximate the desired type, using only
 what's still in scope and avoiding the names going out of scope, which
@@ -39,8 +40,16 @@ The approximation process fails to respect equivalences between module
 signatures, which is typical of heuristic solutions to the avoidance
 problem.
 
+A well-behaved solution to the avoidance problem is to introduce
+existential types when necessary to give names to values that have
+gone out of scope. In the above example, that would lead to a
+signature like $∃\n{X} : \n{S}.\;\{ {\tt type}\;{\tt u} = \n{X}.{\tt t};\; {\tt type}\; {\tt v} = \n{X}.{\tt t} \}$.
+The details of when and how to introduce such existentials can be
+quite tricky, see Crary[^crary] for a recent approach.
+
+
 Languages with subtyping and top/bottom types $\n{Any}$ and $\n{Nothing}$ can
-use a different solution to the avoidance problem: types that go out
+sometimes use a different solution to the avoidance problem: types that go out
 of scope are approximated as $\n{Any}$ when used covariantly (as an
 output) and $\n{Nothing}$ when used contravariantly (as an input). For
 instance, when the type $A$ goes out of scope, a function of type
@@ -65,8 +74,11 @@ object Test {
 // but this isn't a legal type
 ```
 
+
 [^dreyer]: Fig 4.12 on p. 79 of [Understanding and Evolving the ML
 Module System](https://www.cs.cmu.edu/~rwh/theses/dreyer.pdf), Derek
 Dreyer (2005)
+
+[^crary]: [A Focused Solution to the Avoidance Problem](https://www.cs.cmu.edu/~crary/papers/2020/exsig.pdf), Karl Crary (2020)
 
 [^scala]: <https://github.com/lampepfl/dotty/issues/6205> (2019)
