@@ -317,7 +317,7 @@ type family Bar a :: *
 </code></pre>
 <p>Here, <code>Foo</code> is defined as a type constructor, something of kind <code>* -&gt; *</code>. This kind only contains injective type constructors (like lists,
 etc.).
-By constrast, <code>Bar</code> is defined as a type-level function. <code>Bar</code> is not
+By contrast, <code>Bar</code> is defined as a type-level function. <code>Bar</code> is not
 necessarily injective, as one can define:</p>
 <pre><code class="language-haskell">type instance Bar a = Int
 </code></pre>

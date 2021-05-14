@@ -246,17 +246,17 @@ interface its <code>m</code> must accept <em>all</em> inputs that <code>A.m</cod
 requiring the input of <code>B.m</code> to be a <em>supertype</em> of that of <code>A.m</code>.</p>
 <p>Many object-oriented languages conflate inheritance and subtyping as
 <em>subclassing</em>. Three representative examples are C#, Eiffel and
-TypeScript, which differ in how overriden methods in a subclass are
+TypeScript, which differ in how overridden methods in a subclass are
 typechecked.</p>
 <p>C# insists that subclasses' methods accept exactly the same types
-the overriden method accepts, which is sound but makes some uses of
+the overridden method accepts, which is sound but makes some uses of
 subtyping and specialisation awkward. Eiffel prefers specialisation,
 insisting that subclasses' methods accept subtypes of what the
-overriden method accepts, which is unsound<sup class="footnote-reference"><a href="#cook">2</a></sup>. TypeScript is ambivalent,
+overridden method accepts, which is unsound<sup class="footnote-reference"><a href="#cook">2</a></sup>. TypeScript is ambivalent,
 requiring only that subclasses' methods accept either a supertype <em>or</em> a
-subtype of what the overriden method accepts, which is also unsound.</p>
+subtype of what the overridden method accepts, which is also unsound.</p>
 <p>The soundness issue is the same one in both TypeScript and Eiffel:
-Suppose a method <code>A.m</code> may be overriden by <code>B.m</code>, where <code>B.m</code> accepts
+Suppose a method <code>A.m</code> may be overridden by <code>B.m</code>, where <code>B.m</code> accepts
 only a subtype of the original type. Since <code>B</code> is deemed a subtype of
 <code>A</code>, a <code>B</code> can be used as though it were an <code>A</code>, and by invoking its
 <code>B.m</code> method through <code>A</code> an argument which is not of the subtype it
@@ -346,7 +346,7 @@ some cases. However, the counterexample above is still accepted with
 <code>strictFunctionTypes</code>.</p>
 <p>Theoretically, Eiffel recovers soundness by the &quot;system validity
 check&quot;, a whole-program dataflow analysis designed to detect
-situations like Cook's counterexaxmple (which the Eiffel community
+situations like Cook's counterexample (which the Eiffel community
 terms &quot;catcalls&quot;, for &quot;Changed Availability or Type&quot;). However, this
 check is quite tricky, and it appears that no Eiffel compilers have
 ever actually implemented it<sup class="footnote-reference"><a href="#cats">4</a></sup>.</p>
@@ -358,7 +358,7 @@ determined at runtime.</p>
 <p>When class methods can be overridden in a subclass, this raises the
 same subtyping vs. inheritance issue: may the subclass specialise its
 argument type, or must it accept a supertype? A soundness issue along
-these lines (analagous to the one above) arose in Swift<sup class="footnote-reference"><a href="#swift">5</a></sup>:</p>
+these lines (analogous to the one above) arose in Swift<sup class="footnote-reference"><a href="#swift">5</a></sup>:</p>
 <pre><code class="language-swift">// Counterexample by Ben Pious
 class C&lt;T&gt; {
     
