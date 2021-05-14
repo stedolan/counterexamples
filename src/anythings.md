@@ -54,7 +54,7 @@ lists with elements of type $A$:
   - $\n{List}[⊤] = ∃α. \n{List}[α]$
 
     If a list contains elements of an unknown type $α$, then there is
-    nothing useful we can do with them. The situtation is the same as
+    nothing useful we can do with them. The situation is the same as
     if we had a list of $⊤$.
 
 The extent to which languages implement these rules varies. Sometimes[^garrigue],

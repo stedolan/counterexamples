@@ -16,7 +16,7 @@ variable cannot be unified with a type mentioning the same
 variable. For instance, $α$ and $α → α$ fail to unify because of this
 check.
 
-So, if using unification to check distictness, it is natural to
+So, if using unification to check distinctness, it is natural to
 believe that $α$ and $α → α$ are distinct, regardless of what $α$ is.
 However, this is only sound if there are no infinite or recursive
 types in the language: if a type $T$ could be constructed equal to $T

@@ -113,7 +113,7 @@ type family Bar a :: *
 Here, `Foo` is defined as a type constructor, something of kind `* ->
 *`. This kind only contains injective type constructors (like lists,
 etc.).
-By constrast, `Bar` is defined as a type-level function. `Bar` is not
+By contrast, `Bar` is defined as a type-level function. `Bar` is not
 necessarily injective, as one can define:
 ```haskell
 type instance Bar a = Int

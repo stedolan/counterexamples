@@ -3,7 +3,7 @@
 ### Polymorphism
 
 The word "polymorphism" can refer to several different things. Here,
-it means "parameteric polymorphism": types like $∀α .\; α → α$,
+it means "parametric polymorphism": types like $∀α .\; α → α$,
 allowing the same value to be used at many possible types,
 parameterised by a type variable. This feature is sometimes called
 "generics".
