@@ -4,7 +4,7 @@ Welcome to *Counterexamples in Type Systems*, a compendium of horrible
 programs that crash, segfault or otherwise explode.
 
 The "counterexamples" here are programs that go wrong in ways that
-should be impossible: corrupt memory in Rust, produce
+should be impossible: corrupt memory in Rust, produce a
 `ClassCastException` in cast-free Java, segfault in Haskell, and so
 on. This book is a collection of such counterexamples, each with some
 explanation of what went wrong and references to the languages or
