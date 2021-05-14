@@ -332,7 +332,8 @@ fragments, gluing together an output program from quoted
 fragments of code. However, it is unsound to allow evidence
 computed in the future by the generated output program to justify
 computations now. This caused a soundness bug in Scala's
-implementation of staged metaprogramming<sup class="footnote-reference"><a href="#scalastage">4</a></sup>:</p>
+implementation of staged metaprogramming<sup class="footnote-reference"><a href="#scalastage">4</a></sup> and in
+BER MetaOCaml<sup class="footnote-reference"><a href="#metaocamlbug">5</a></sup>:</p>
 <pre><code class="language-scala">// Counterexample by Lionel Parreaux
 import scala.quoted.staging._
 
@@ -341,6 +342,16 @@ trait T { type A &gt;: Any &lt;: Nothing }
 
 withQuoteContext { '{ (x: T) =&gt; ${ 42: x.A } } }
 // crashes with java.lang.ClassCastException
+</code></pre>
+<pre><code class="language-ocaml">(* Counterexample by Jeremy Yallop *)
+open Tgadt_decl
+
+let f : type a. a t option code -&gt; a -&gt; unit code =
+  fun c x -&gt; .&lt; match .~c with
+  | None -&gt; ()
+  | Some T -&gt; .~(print_endline x; .&lt;()&gt;.) &gt;.
+
+let _ = f .&lt; None &gt;. 0
 </code></pre>
 </li>
 </ul>
@@ -356,6 +367,9 @@ Nada Amin and Ross Tate (2016)</p>
 </div>
 <div class="footnote-definition" id="scalastage"><sup class="footnote-definition-label">4</sup>
 <p><a href="https://github.com/lampepfl/dotty/issues/9353">https://github.com/lampepfl/dotty/issues/9353</a> (2020)</p>
+</div>
+<div class="footnote-definition" id="metaocamlbug"><sup class="footnote-definition-label">5</sup>
+<p><a href="https://github.com/metaocaml/ber-metaocaml/blob/ber-n111/ber-metaocaml-111/test/tgadt.ml">https://github.com/metaocaml/ber-metaocaml/blob/ber-n111/ber-metaocaml-111/test/tgadt.ml</a> (2016)</p>
 </div>
 
                     </main>
