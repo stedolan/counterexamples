@@ -132,7 +132,8 @@ trusted without being fully evaluated:
      fragments of code. However, it is unsound to allow evidence
      computed in the future by the generated output program to justify
      computations now. This caused a soundness bug in Scala's
-     implementation of staged metaprogramming[^scalastage]:
+     implementation of staged metaprogramming[^scalastage] and in
+     BER MetaOCaml[^metaocamlbug]:
 
      ```scala
      // Counterexample by Lionel Parreaux
@@ -144,6 +145,17 @@ trusted without being fully evaluated:
      withQuoteContext { '{ (x: T) => ${ 42: x.A } } }
      // crashes with java.lang.ClassCastException
      ```
+     ```ocaml
+     (* Counterexample by Jeremy Yallop *)
+     open Tgadt_decl
+
+     let f : type a. a t option code -> a -> unit code =
+       fun c x -> .< match .~c with
+       | None -> ()
+       | Some T -> .~(print_endline x; .<()>.) >.
+
+     let _ = f .< None >. 0
+     ```
 
 [^amintate]: [Java and Scala’s Type Systems are Unsound](http://io.livecode.ch/learn/namin/unsound/scala) (OOPSLA '16)
 Nada Amin and Ross Tate (2016)
@@ -153,3 +165,5 @@ Nada Amin and Ross Tate (2016)
 [^scalafwd]: <https://github.com/lampepfl/dotty/issues/5854> (2019)
 
 [^scalastage]: <https://github.com/lampepfl/dotty/issues/9353> (2020)
+
+[^metaocamlbug]: <https://github.com/metaocaml/ber-metaocaml/blob/ber-n111/ber-metaocaml-111/test/tgadt.ml> (2016)
