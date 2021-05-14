@@ -162,7 +162,7 @@ There are several solutions:
 
     Type-and-effect systems have a typing judgement $Γ ⊢ e : A\, !\,
     Δ$, where $Δ$ is the *effect*, representing effects that occur as
-    part of evaluating $e$. The typing rule for polymophism in such
+    part of evaluating $e$. The typing rule for polymorphism in such
     systems can generalise a type variable $α$ only if it does not
     appear in $Γ$ *or* $Δ$. If allocating a new mutable reference of
     type $T$ results in an effect mentioning $T$ appearing in $Δ$,

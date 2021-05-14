@@ -28,7 +28,7 @@ then using the above rule and subtyping to give it type $A ∧ B$.
 
 The crucial difference is that in the first style, the two typing
 derivations for $Γ ⊢ e : A$ and $Γ ⊢ e : B$ may be entirely different.
-This brings suprising complexity: for instance, in both the
+This brings surprising complexity: for instance, in both the
 Coppo-Dezani[^cdtypes] and Barendregt-Coppo-Dezani[^bcdtypes] systems
 (both simply typed lambda calculi with intersection types), type
 checking is undecidable as a term is typeable iff its execution

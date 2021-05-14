@@ -21,7 +21,7 @@ checks whether $y = 0$. The optimisation is that if $y ≠ 0$, the
 code skips straight to the `"bar"` outcome, without rechecking whether
 $x = 42$.
 
-The assumption here is that $x$ did not change betwen the first
+The assumption here is that $x$ did not change between the first
 pattern and the second. This assumption can be violated by the
 presence of two features: first, the ability to pattern-match on
 mutable fields, and second, the ability to run arbitrary code during

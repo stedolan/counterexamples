@@ -4,7 +4,7 @@ TAGS: recursive-types
 
 While the previous example ([Underdetermined
 recursion](underdetermined-recursion.md)) was concerned with recursive
-type defintions that have multiple valid interpretations, here the
+type definitions that have multiple valid interpretations, here the
 problem is recursive type definitions that have no valid
 interpretations at all.
 

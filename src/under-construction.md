@@ -30,7 +30,7 @@ class T {
 ```
 
 In the first style, the record is fully constructed as soon as it is
-available, and no intermediate states are visible. By constrast, the
+available, and no intermediate states are visible. By contrast, the
 second style allows intermediate states to be observed, which can have
 confusing or unsound consequences.
 

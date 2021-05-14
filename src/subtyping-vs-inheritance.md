@@ -28,19 +28,19 @@ requiring the input of `B.m` to be a *supertype* of that of `A.m`.
 
 Many object-oriented languages conflate inheritance and subtyping as
 _subclassing_. Three representative examples are C#, Eiffel and
-TypeScript, which differ in how overriden methods in a subclass are
+TypeScript, which differ in how overridden methods in a subclass are
 typechecked.  
 
 C# insists that subclasses' methods accept exactly the same types
-the overriden method accepts, which is sound but makes some uses of
+the overridden method accepts, which is sound but makes some uses of
 subtyping and specialisation awkward. Eiffel prefers specialisation,
 insisting that subclasses' methods accept subtypes of what the
-overriden method accepts, which is unsound[^cook]. TypeScript is ambivalent,
+overridden method accepts, which is unsound[^cook]. TypeScript is ambivalent,
 requiring only that subclasses' methods accept either a supertype _or_ a
-subtype of what the overriden method accepts, which is also unsound.
+subtype of what the overridden method accepts, which is also unsound.
 
 The soundness issue is the same one in both TypeScript and Eiffel:
-Suppose a method `A.m` may be overriden by `B.m`, where `B.m` accepts
+Suppose a method `A.m` may be overridden by `B.m`, where `B.m` accepts
 only a subtype of the original type. Since `B` is deemed a subtype of
 `A`, a `B` can be used as though it were an `A`, and by invoking its
 `B.m` method through `A` an argument which is not of the subtype it
@@ -136,7 +136,7 @@ some cases. However, the counterexample above is still accepted with
 
 Theoretically, Eiffel recovers soundness by the "system validity
 check", a whole-program dataflow analysis designed to detect
-situations like Cook's counterexaxmple (which the Eiffel community
+situations like Cook's counterexample (which the Eiffel community
 terms "catcalls", for "Changed Availability or Type"). However, this
 check is quite tricky, and it appears that no Eiffel compilers have
 ever actually implemented it[^cats].
@@ -150,7 +150,7 @@ determined at runtime.
 When class methods can be overridden in a subclass, this raises the
 same subtyping vs. inheritance issue: may the subclass specialise its
 argument type, or must it accept a supertype? A soundness issue along
-these lines (analagous to the one above) arose in Swift[^swift]:
+these lines (analogous to the one above) arose in Swift[^swift]:
 ```swift
 // Counterexample by Ben Pious
 class C<T> {
