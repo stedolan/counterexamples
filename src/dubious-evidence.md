@@ -147,7 +147,7 @@ trusted without being fully evaluated:
      ```
      ```ocaml
      (* Counterexample by Jeremy Yallop *)
-     open Tgadt_decl
+     type _ t = T : string t
 
      let f : type a. a t option code -> a -> unit code =
        fun c x -> .< match .~c with
