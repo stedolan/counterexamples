@@ -96,7 +96,7 @@ trusted without being fully evaluated:
 
     ```ocaml
     (* Counterexample by Stephen Dolan *)
-    type (,) eq = Refl : ('a, 'a) eq
+    type (_,_) eq = Refl : ('a, 'a) eq
     let cast (type a) (type b) (Refl : (a, b) eq) (x : a) = (x : b)
     
     let is_int (type a) =
