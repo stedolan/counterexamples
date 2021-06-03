@@ -86,8 +86,26 @@ the array, just as a runtime check that `typeof x === "function"` says
 nothing about the domain or codomain. The untagged union type offers
 a way to exploit this flaw.
 
-This issue is resolved by using tagged (disjoint) unions instead of
-untagged unions:
+By contrast, Typed Racket also supports refinements of union types, but
+behaves correctly here:
+```racket
+#lang typed/racket
+
+(: valid-refinement (All (T) (U Number (Boxof T)) (-> Number T) -> T))
+(define (valid-refinement x from-number)
+  (if (box? x)
+      (unbox x)  ;; works: must be a `Boxof T` (good)
+      (from-number x)))
+
+(: invalid-refinement (All (T) (U T (Boxof T)) -> T))
+(define (invalid-refinement x)
+  (if (box? x)
+      (unbox x)  ;; type error here: could be a box of something else (good!)
+      x))
+```
+
+In Flow and TypeScript, this issue is resolved by using tagged
+(disjoint) unions instead of untagged unions:
 ```typescript
 type ElementOrArray<T> =
   {type: "ELEMENT", value: T} | {type: "ARRAY", array: T[]};
