@@ -1,6 +1,6 @@
 # Polymorphic union refinement
 
-TAGS: polymorphism
+TAGS: polymorphism, typecase
 
 Untagged union types are types of the form $A ∨ B$ that contain values
 that are either of type $A$ or of type $B$, with no "tag" information to
@@ -52,7 +52,8 @@ function description(x: Dog | Car): string {
 ```
 
 However, runtime type tests are not always so simple. The following code
-also typechecks in both Flow and TypeScript, but is unsound[^flowbug]:
+also typechecks in both Flow and TypeScript, yet does not necessarily
+return an `Array<T>`[^flowbug]:
 ```typescript
 function orSingleton<T>(x: T | Array<T>): Array<T> {
   if (x instanceof Array) {
