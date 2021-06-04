@@ -85,7 +85,13 @@ In some sense, the core issue here is the refinement itself. A runtime
 check that `x instanceof Array` says nothing about the element type of
 the array, just as a runtime check that `typeof x === "function"` says
 nothing about the domain or codomain. The untagged union type offers
-a way to exploit this flaw.
+a way to exploit this flaw. The same flaw occurred in Scala[^dotty]:
+```scala
+// Counterexample by Lionel Parreaux
+def test[A]: List[Int] | A => Int =
+  { case ls: List[Int] => ls.head  case _ => 0 }
+test(List("oops")) // crashes
+```
 
 By contrast, Typed Racket also supports refinements of union types, but
 behaves correctly here:
@@ -137,3 +143,5 @@ distinct value tag, are actually tagged unions, and may still be used
 safely.
 
 [^flowbug]: [Refinement with `instanceof` and generic unions is unsound](https://github.com/facebook/flow/issues/6741), Flow issue #6741 (2018)
+
+[^dotty]: <https://github.com/lampepfl/dotty/issues/5826> (2019)
