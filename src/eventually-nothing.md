@@ -71,7 +71,7 @@ print_endline (elim bottom)
 -- this correctly hangs rather than crashing
 putStrLn (elim bottom)
 ```
-When optimisations are turned on, this program crashes in Rust[^rustbug].
+When optimisations are turned on, this program crashed in several versions of Rust[^rustbug].
 
 [^rustbug]: <https://github.com/rust-lang/rust/issues/28728> (2015)
 
