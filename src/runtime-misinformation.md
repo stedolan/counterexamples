@@ -149,6 +149,9 @@ static String bad(Class<List<String>> cls) {
 // (Arrays.asList("a").getClass() is a Class<? extends List>)
 ```
 
+Runtime type tests are also tricky when the value being tested has a
+union type: see [Polymorphic union refinement](polymorphic-union-refinement.md).
+
 [^scala]: <https://github.com/scala/bug/issues/1503> (2008)
 
 [^dotty]: <https://github.com/lampepfl/dotty/issues/9359> (2020)

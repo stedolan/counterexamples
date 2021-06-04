@@ -58,6 +58,7 @@
 
 
   - [Intersecting references](intersecting-references.md)
+  - [Polymorphic union refinement](polymorphic-union-refinement.md)
 
   - [Positivity, strict and otherwise](strict-positivity.md)
 
