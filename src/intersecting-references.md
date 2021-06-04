@@ -43,7 +43,7 @@ references is unsound:
 (* Suppose we have types nat and pos,
    where nat is nonnegative integers
    and pos is its subtype of positive integers *)
-let x : nat ref ∧ pos ref = ref 0 in
+let x : nat ref ∧ pos ref = ref 1 in
 let () = (x := 0) in   (* typechecks: x is a nat ref *)
 let z : pos = !x in    (* typechecks: x is a pos ref *)
 z : pos                (* now we have the positive number zero *)
