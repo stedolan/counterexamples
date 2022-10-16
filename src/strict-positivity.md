@@ -10,7 +10,7 @@ Inductive bad := r (c : bad -> nat).
 ```agda
 -- rejected by Agda
 data Bad : Set where
-  r : (Bad → ℕ) → Curry
+  r : (Bad → ℕ) → Bad
 ```
 
 Here, the type `bad` is defined recursively as consisting of a
