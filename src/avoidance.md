@@ -76,7 +76,7 @@ object Test {
 
 
 [^dreyer]: Fig 4.12 on p. 79 of [Understanding and Evolving the ML
-Module System](https://www.cs.cmu.edu/~rwh/theses/dreyer.pdf), Derek
+Module System](https://people.mpi-sws.org/~dreyer/thesis/main.pdf), Derek
 Dreyer (2005)
 
 [^crary]: [A Focused Solution to the Avoidance Problem](https://www.cs.cmu.edu/~crary/papers/2020/exsig.pdf), Karl Crary (2020)
