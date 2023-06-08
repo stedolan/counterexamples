@@ -59,8 +59,8 @@ for the type system).
 
 ### Scoping
 
-When types are types defined locally to a module, function or
-block, the compiler must check do not accidentally leak out
+When types are defined locally to a module, function or
+block, the compiler must check they do not accidentally leak out
 of their scope.
 
 [#scoping]
