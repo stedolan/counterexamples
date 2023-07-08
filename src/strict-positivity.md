@@ -49,31 +49,26 @@ and reproduced here:
 (* Phi is a positive, but not strictly positive, operator. *)
 Definition Phi (a : Type) := (a -> Prop) -> Prop.
 
-(* If we were allowed to form the inductive type
-     Inductive A: Type :=
-       introA : Phi A -> A.
-   then among other things, we would get the following. *)
-Axiom A : Type.
-Axiom introA : Phi A -> A.
-Axiom matchA : A -> Phi A.
-Axiom beta : forall x, matchA (introA x) = x.
+#[bypass_check(positivity = yes)]
+Inductive A: Type :=
+  introA : Phi A -> A.
 
-(* In particular, introA is an injection. *)
+(* If we were allowed to form the inductive type A above (unsoundly bypassing
+the positivity restriction), then we get an injective constructor
+introA : Phi A -> A *)
 Lemma introA_injective : forall p p', introA p = introA p' -> p = p'.
 Proof.
-  intros.
-  assert (matchA (introA p) = (matchA (introA p'))) as H1 by congruence.
-  now repeat rewrite beta in H1.
+  inversion 1; subst; reflexivity.
 Qed.
 
-(* However, ... *) 
+(* However, ... *)
 
 (* Proposition: For any type A, there cannot be an injection
    from Phi(A) to A. *)
 
 (* For any type X, there is an injection from X to (X->Prop),
    which is λx.(λy.x=y) . *)
-Definition i {X:Type} : X -> (X -> Prop) := 
+Definition i {X:Type} : X -> (X -> Prop) :=
   fun x y => x=y.
 
 Lemma i_injective : forall X (x x' :X), i x = i x' -> x = x'.
@@ -84,10 +79,10 @@ Proof.
   symmetry.
   rewrite <- H1.
   reflexivity.
-Qed.  
+Qed.
 
 (* Hence, by composition, we get an injection f from A->Prop to A. *)
-Definition f : (A->Prop) -> A 
+Definition f : (A->Prop) -> A
   := fun p => introA (i p).
 
 Lemma f_injective : forall p p', f p = f p' -> p = p'.
@@ -99,7 +94,7 @@ Qed.
 (* We are now back to the usual Cantor-Russel paradox. *)
 (* We can define *)
 Definition P0 : A -> Prop
-  := fun x => 
+  := fun x =>
        exists (P:A->Prop), f P = x /\ ~ P x.
   (* i.e., P0 x := x codes a set P such that x∉P. *)
 
@@ -151,7 +146,7 @@ three are necessary:
 
 [^colog88]: Section 3.1 of "Inductively defined types", Thierry Coquand and Christine Paulin, 1988.
 
-[^sjöberg]: [Why must inductive types be strictly positive?](http://vilhelms.github.io/posts/why-must-inductive-types-be-strictly-positive/), Vilhelm Sjöberg (2015) 
+[^sjöberg]: [Why must inductive types be strictly positive?](http://vilhelms.github.io/posts/why-must-inductive-types-be-strictly-positive/), Vilhelm Sjöberg (2015)
 
 [^hofmann]: [Martin Hofmann’s Case for Non-Strictly Positive Data Types](https://hal.archives-ouvertes.fr/hal-02365814), Ulrich Berger, Ralph Matthes and Anton Setzer (2018)
 
