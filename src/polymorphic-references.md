@@ -221,7 +221,7 @@ There are several solutions:
 
 [^elm]: <https://github.com/elm/compiler/issues/889> (2015)
 
-[^greiner]: [Weak Polymorphism Can Be Sound](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.37.5096&rank=1), John Greiner (1996)
+[^greiner]: [Weak Polymorphism Can Be Sound](https://doi.org/10.1017/S0956796800001593), John Greiner (1996)
 
 [^leroy]: [Polymorphic type inference and assignment](https://hal.inria.fr/hal-01499974/), Xavier Leroy and
 Pierre Weis (1991)
